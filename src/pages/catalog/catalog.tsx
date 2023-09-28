@@ -7,9 +7,14 @@ import Pagination from '../../components/pagination/pagination';
 import ProductCard from '../../components/product-card/product-card';
 import SortForm from '../../components/sort-form/sort-form';
 import FilterForm from '../../filter-form/filter-form';
+import { useAppSelector } from '../../hooks/use-app-dispatch';
+import { getProducts } from '../../store/data-process/selectors';
 
 
 function Catalog(): React.JSX.Element {
+
+  const products = useAppSelector(getProducts);
+
   return (
     <>
       <div className="visually-hidden">
@@ -33,7 +38,7 @@ function Catalog(): React.JSX.Element {
                   <div className="catalog__content">
                     <SortForm />
                     <div className="cards catalog__cards">
-                      <ProductCard />
+                      {products.map((product) => <ProductCard key={product.id} product={product}/>)}
                     </div>
                     <Pagination />
                   </div>

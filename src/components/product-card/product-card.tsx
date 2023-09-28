@@ -1,21 +1,26 @@
+import { Product } from '../../types/types';
 import BuyButton from '../buttons/buy-button';
 import DetailsButton from '../buttons/details-button';
 
-function ProductCard():React.JSX.Element {
+type ProductCardProps = {
+  product: Product;
+}
+
+function ProductCard({product}: ProductCardProps):React.JSX.Element {
   return (
     <div className="product-card">
       <div className="product-card__img">
         <picture>
           <source
             type="image/webp"
-            srcSet="img/content/das-auge.webp, img/content/das-auge@2x.webp 2x"
+            srcSet={`${product.previewImgWebp}, ${product.previewImgWebp2x}`}
           />
           <img
-            src="img/content/das-auge.jpg"
-            srcSet="img/content/das-auge@2x.jpg 2x"
+            src={product.previewImg}
+            srcSet={product.previewImg2x}
             width={280}
             height={240}
-            alt="Ретрокамера «Das Auge IV»"
+            alt={product.name}
           />
         </picture>
       </div>
@@ -36,22 +41,22 @@ function ProductCard():React.JSX.Element {
           <svg width={17} height={16} aria-hidden="true">
             <use xlinkHref="#icon-star" />
           </svg>
-          <p className="visually-hidden">Рейтинг: 3</p>
+          <p className="visually-hidden">Рейтинг: {product.rating}</p>
           <p className="rate__count">
             <span className="visually-hidden">Всего оценок:</span>
-                          23
+            {product.reviewCount}
           </p>
         </div>
         <p className="product-card__title">
-                        Ретрокамера Das Auge IV
+          {product.name}
         </p>
         <p className="product-card__price">
-          <span className="visually-hidden">Цена:</span>73 450 ₽
+          <span className="visually-hidden">Цена:</span>{`${product.price} ₽`}
         </p>
       </div>
       <div className="product-card__buttons">
         <BuyButton />
-        <DetailsButton />
+        <DetailsButton id={product.id}/>
       </div>
     </div>
   );
