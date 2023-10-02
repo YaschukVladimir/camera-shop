@@ -26,3 +26,5 @@ export enum ApiRoutes {
   GetProducts = '/cameras',
   GetPromo = '/promo'
 }
+
+export const PRODUCTS_PER_PAGE = 9;

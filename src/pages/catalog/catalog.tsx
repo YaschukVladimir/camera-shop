@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Banner from '../../components/banner/banner';
 import BreadCrumbs from '../../components/bread-crumbs/bread-crumbs';
 import Footer from '../../components/footer/footer';
@@ -9,12 +10,22 @@ import SortForm from '../../components/sort-form/sort-form';
 import FilterForm from '../../filter-form/filter-form';
 import { useAppSelector } from '../../hooks/use-app-dispatch';
 import { getProducts, getPromoProducts } from '../../store/data-process/selectors';
+import { PRODUCTS_PER_PAGE } from '../../const';
 
 
 function Catalog(): React.JSX.Element {
 
   const products = useAppSelector(getProducts);
   const promoProducts = useAppSelector(getPromoProducts);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const lastProductIndex = currentPage * PRODUCTS_PER_PAGE;
+  const firstProductIndex = lastProductIndex - PRODUCTS_PER_PAGE;
+  const currentProducts = products.slice(firstProductIndex, lastProductIndex);
+
+  const paginate = (pageNumber: number): void => setCurrentPage(pageNumber);
+
 
   return (
     <>
@@ -39,9 +50,13 @@ function Catalog(): React.JSX.Element {
                   <div className="catalog__content">
                     <SortForm />
                     <div className="cards catalog__cards">
-                      {products.map((product) => <ProductCard key={product.id} product={product}/>)}
+                      {currentProducts.map((product) => <ProductCard key={product.id} product={product}/>)}
                     </div>
-                    <Pagination />
+                    <Pagination
+                      products={products}
+                      paginate={paginate}
+                      currentPage={currentPage}
+                    />
                   </div>
                 </div>
               </div>
