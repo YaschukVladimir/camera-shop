@@ -23,5 +23,6 @@ export enum NameSpace {
 }
 
 export enum ApiRoutes {
-  GetProducts = '/cameras'
+  GetProducts = '/cameras',
+  GetPromo = '/promo'
 }

@@ -8,12 +8,13 @@ import ProductCard from '../../components/product-card/product-card';
 import SortForm from '../../components/sort-form/sort-form';
 import FilterForm from '../../filter-form/filter-form';
 import { useAppSelector } from '../../hooks/use-app-dispatch';
-import { getProducts } from '../../store/data-process/selectors';
+import { getProducts, getPromoProducts } from '../../store/data-process/selectors';
 
 
 function Catalog(): React.JSX.Element {
 
   const products = useAppSelector(getProducts);
+  const promoProducts = useAppSelector(getPromoProducts);
 
   return (
     <>
@@ -23,7 +24,7 @@ function Catalog(): React.JSX.Element {
       <div className="wrapper">
         <Header />
         <main>
-          <Banner />
+          {promoProducts.length && <Banner promoProducts={promoProducts}/>}
           <div className="page-content">
             <div className="breadcrumbs">
               <BreadCrumbs />
