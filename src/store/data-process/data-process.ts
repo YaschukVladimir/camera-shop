@@ -1,18 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { DataProcess } from '../../types/types';
-import { fetchProductsAction, fetchPromoProductsAction } from '../api-actions';
+import { fetchActiveProduct, fetchProductsAction, fetchPromoProductsAction } from '../api-actions';
 
 const initialState: DataProcess = {
   products: [],
-  promoProducts: []
+  promoProducts: [],
+  modalActiveId: null,
+  activeProduct: null,
 };
 
 
 export const dataProcess = createSlice({
   name: NameSpace.Data,
   initialState,
-  reducers: {},
+  reducers: {
+    setModalActiveId: (state, action: PayloadAction<number | null>) => {
+      state.modalActiveId = action.payload;
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchProductsAction.fulfilled, (state, action) => {
@@ -20,6 +26,11 @@ export const dataProcess = createSlice({
       })
       .addCase(fetchPromoProductsAction.fulfilled, (state, action) => {
         state.promoProducts = action.payload;
+      })
+      .addCase(fetchActiveProduct.fulfilled, (state, action) => {
+        state.activeProduct = action.payload;
       });
   }
 });
+
+export const { setModalActiveId } = dataProcess.actions;

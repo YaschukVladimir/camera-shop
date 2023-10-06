@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Banner from '../../components/banner/banner';
 import BreadCrumbs from '../../components/bread-crumbs/bread-crumbs';
 import Footer from '../../components/footer/footer';
@@ -11,6 +11,8 @@ import FilterForm from '../../filter-form/filter-form';
 import { useAppSelector } from '../../hooks/use-app-dispatch';
 import { getProducts, getPromoProducts } from '../../store/data-process/selectors';
 import { PRODUCTS_PER_PAGE } from '../../const';
+import { useSearchParams } from 'react-router-dom';
+import BuyModal from '../../components/buy-modal/buy-modal';
 
 
 function Catalog(): React.JSX.Element {
@@ -24,8 +26,13 @@ function Catalog(): React.JSX.Element {
   const firstProductIndex = lastProductIndex - PRODUCTS_PER_PAGE;
   const currentProducts = products.slice(firstProductIndex, lastProductIndex);
 
-  const paginate = (pageNumber: number): void => setCurrentPage(pageNumber);
+  const [searchParams, setSearchParams] = useSearchParams({page: '1'});
+  const pageQuery = searchParams.get('page') || '';
 
+
+  useEffect (() => {
+    setCurrentPage(+pageQuery);
+  }, [pageQuery]);
 
   return (
     <>
@@ -54,7 +61,7 @@ function Catalog(): React.JSX.Element {
                     </div>
                     <Pagination
                       products={products}
-                      paginate={paginate}
+                      setSearchParams={setSearchParams}
                       currentPage={currentPage}
                     />
                   </div>
@@ -62,6 +69,7 @@ function Catalog(): React.JSX.Element {
               </div>
             </section>
           </div>
+          <BuyModal />
         </main>
         <Footer />
       </div>

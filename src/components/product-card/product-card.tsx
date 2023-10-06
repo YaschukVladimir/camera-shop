@@ -55,7 +55,7 @@ function ProductCard({product}: ProductCardProps):React.JSX.Element {
         </p>
       </div>
       <div className="product-card__buttons">
-        <BuyButton />
+        <BuyButton id={product.id}/>
         <DetailsButton id={product.id}/>
       </div>
     </div>

@@ -12,24 +12,9 @@ function MainApp(): React.JSX.Element {
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
-        <Route
-          path={AppRoute.Root}
-          element={
-            <Catalog />
-          }
-        />
-        <Route
-          path={AppRoute.Product}
-          element={
-            <Product />
-          }
-        />
-        <Route
-          path={AppRoute.Basket}
-          element={
-            <Basket />
-          }
-        />
+        <Route path={AppRoute.Root} element={<Catalog />} />
+        <Route path={AppRoute.Product} element={<Product />} />
+        <Route path={AppRoute.Basket} element={<Basket />} />
       </Routes>
     </HistoryRouter>
   );

@@ -24,7 +24,16 @@ export enum NameSpace {
 
 export enum ApiRoutes {
   GetProducts = '/cameras',
-  GetPromo = '/promo'
+  GetPromo = '/promo',
+  GetActiveProduct = '/cameras/',
 }
 
 export const PRODUCTS_PER_PAGE = 9;
+
+
+export enum Direction {
+  Next = 'Далее',
+  Prev = 'Назад'
+}
+
+export const PAGES_TO_SHOW = 3;
