@@ -1,13 +1,15 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { DataProcess } from '../../types/types';
-import { fetchActiveProduct, fetchProductsAction, fetchPromoProductsAction } from '../api-actions';
+import { fetchActiveProduct, fetchProductsAction, fetchPromoProductsAction, fetchReviews, fetchSimilarProducts } from '../api-actions';
 
 const initialState: DataProcess = {
   products: [],
   promoProducts: [],
-  modalActiveId: null,
+  isModalActive: false,
   activeProduct: null,
+  similarProducts: [],
+  reviews: []
 };
 
 
@@ -15,8 +17,11 @@ export const dataProcess = createSlice({
   name: NameSpace.Data,
   initialState,
   reducers: {
-    setModalActiveId: (state, action: PayloadAction<number | null>) => {
-      state.modalActiveId = action.payload;
+    setModalActive: (state, action: PayloadAction<boolean>) => {
+      state.isModalActive = action.payload;
+    },
+    clearActiveProduct: (state) => {
+      state.activeProduct = null;
     }
   },
   extraReducers(builder) {
@@ -29,8 +34,14 @@ export const dataProcess = createSlice({
       })
       .addCase(fetchActiveProduct.fulfilled, (state, action) => {
         state.activeProduct = action.payload;
+      })
+      .addCase(fetchSimilarProducts.fulfilled, (state, action) => {
+        state.similarProducts = action.payload;
+      })
+      .addCase(fetchReviews.fulfilled, (state, action) => {
+        state.reviews = action.payload;
       });
   }
 });
 
-export const { setModalActiveId } = dataProcess.actions;
+export const { setModalActive, clearActiveProduct } = dataProcess.actions;

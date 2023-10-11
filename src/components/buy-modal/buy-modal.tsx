@@ -1,17 +1,22 @@
-import { useAppSelector } from '../../hooks/use-app-dispatch';
-import { GetActiveProduct} from '../../store/data-process/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
+import { clearActiveProduct, setModalActive } from '../../store/data-process/data-process';
+import { getActiveProduct, getIsModalActive} from '../../store/data-process/selectors';
 
 // type BuyModalProps = {
 //   products: Product[];
 // }
 
 function BuyModal(): React.JSX.Element {
-
-  const activeProduct = useAppSelector(GetActiveProduct);
-
+  const dispatch = useAppDispatch();
+  const isModalActive = useAppSelector(getIsModalActive);
+  const activeProduct = useAppSelector(getActiveProduct);
+  const handleModalClose = () => {
+    // dispatch(clearActiveProduct());
+    dispatch(setModalActive(false));
+  };
 
   return (
-    <div className={`modal ${activeProduct?.id ? 'is-active' : ''}`}>
+    <div className={`modal ${isModalActive ? 'is-active' : ''}`}>
       <div className="modal__wrapper">
         <div className="modal__overlay" />
         <div className="modal__content">
@@ -21,10 +26,10 @@ function BuyModal(): React.JSX.Element {
               <picture>
                 <source
                   type="image/webp"
-                  srcSet={activeProduct?.previewImgWebp}
+                  srcSet={`/${activeProduct?.previewImgWebp}`}
                 />
                 <img
-                  src={activeProduct?.previewImg}
+                  src={`/${activeProduct?.previewImg}`}
                   srcSet={activeProduct?.previewImg2x}
                   width={140}
                   height={120}
@@ -58,7 +63,7 @@ function BuyModal(): React.JSX.Element {
           Добавить в корзину
             </button>
           </div>
-          <button className="cross-btn" type="button" aria-label="Закрыть попап">
+          <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={handleModalClose}>
             <svg width={10} height={10} aria-hidden="true">
               <use xlinkHref="#icon-close" />
             </svg>

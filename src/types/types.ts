@@ -29,8 +29,10 @@ export type PromoProduct = {
 export type DataProcess = {
   products: Product[];
   promoProducts: PromoProduct[];
-  modalActiveId: number | null;
+  isModalActive: boolean;
   activeProduct: ActiveProduct;
+  similarProducts: Product[];
+  reviews: ReviewType[];
 }
 
 export type State = ReturnType<typeof store.getState>;
@@ -53,3 +55,14 @@ export type ActiveProduct = {
   previewImgWebp: string;
   previewImgWebp2x: string;
 } | null;
+
+export type ReviewType = {
+  id: string;
+  createAt: string;
+  cameraId: number;
+  userName: string;
+  advantage: string;
+  disadvantage: string;
+  review: string;
+  rating: number;
+}

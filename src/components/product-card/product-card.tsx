@@ -8,16 +8,16 @@ type ProductCardProps = {
 
 function ProductCard({product}: ProductCardProps):React.JSX.Element {
   return (
-    <div className="product-card">
+    <div className="product-card is-active">
       <div className="product-card__img">
         <picture>
           <source
             type="image/webp"
-            srcSet={`${product.previewImgWebp}, ${product.previewImgWebp2x}`}
+            srcSet={`/${product.previewImgWebp}, /${product.previewImgWebp2x}`}
           />
           <img
-            src={product.previewImg}
-            srcSet={product.previewImg2x}
+            src={`/${product.previewImg}`}
+            srcSet={`/${product.previewImg2x}`}
             width={280}
             height={240}
             alt={product.name}

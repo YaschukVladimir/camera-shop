@@ -14,6 +14,7 @@ function MainApp(): React.JSX.Element {
       <Routes>
         <Route path={AppRoute.Root} element={<Catalog />} />
         <Route path={AppRoute.Product} element={<Product />} />
+        <Route path={AppRoute.ProductAbout} element={<Product />} />
         <Route path={AppRoute.Basket} element={<Basket />} />
       </Routes>
     </HistoryRouter>

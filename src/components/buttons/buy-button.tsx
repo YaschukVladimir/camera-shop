@@ -1,5 +1,6 @@
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchActiveProduct } from '../../store/api-actions';
+import { setModalActive } from '../../store/data-process/data-process';
 
 
 type BuyButtonProps = {
@@ -15,6 +16,7 @@ function BuyButton({id}: BuyButtonProps): React.JSX.Element {
       type="button"
       onClick={() => {
         dispatch(fetchActiveProduct(id));
+        dispatch(setModalActive(true));
       }}
     >
                         Купить

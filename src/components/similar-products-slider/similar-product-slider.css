@@ -1,0 +1,12 @@
+.slider-controls:active {
+  color: #7575e2;
+  background-color: #a2a2ff;
+  pointer-events:all;
+}
+
+.product-similar .product-card {
+  display: none;
+  width: auto;
+  margin: 0 16px;
+}
+
