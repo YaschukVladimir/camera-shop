@@ -12,7 +12,7 @@ type PaginationProps = {
   currentPage: number;
 }
 
-function Pagination({products, setSearchParams, currentPage}: PaginationProps): React.JSX.Element {
+function CataloguePagination({products, setSearchParams, currentPage}: PaginationProps): React.JSX.Element {
 
   const pagesQuantity = Array.from({length: Math.ceil(products.length / PRODUCTS_PER_PAGE)}, (_, index) => index + 1);
 
@@ -65,4 +65,4 @@ function Pagination({products, setSearchParams, currentPage}: PaginationProps): 
   );
 }
 
-export default Pagination;
+export default CataloguePagination;

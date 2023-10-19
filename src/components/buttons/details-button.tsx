@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-// import { fetchActiveProduct, fetchReviews, fetchSimilarProducts } from '../../store/api-actions';
 import { setModalActive } from '../../store/data-process/data-process';
 
 type DetailsButtonProps = {
@@ -16,7 +15,7 @@ function DetailsButton({id}: DetailsButtonProps): React.JSX.Element {
   };
 
   return (
-    <Link className="btn btn--transparent" to={`/product/${id}`} onClick={() => {
+    <Link className="btn btn--transparent" to={`/product/${id}/description`} onClick={() => {
       handleDetailsClick();
     }}
     >

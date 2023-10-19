@@ -1,24 +1,44 @@
-import { useAppDispatch, useAppSelector } from '../../hooks/use-app-dispatch';
-import { clearActiveProduct, setModalActive } from '../../store/data-process/data-process';
-import { getActiveProduct, getIsModalActive} from '../../store/data-process/selectors';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { setModalActive } from '../../store/data-process/data-process';
+import { getIsModalActive} from '../../store/data-process/selectors';
+import { ActiveProduct } from '../../types/types';
+import { useAppSelector } from '../../hooks/use-app-selector';
 
-// type BuyModalProps = {
-//   products: Product[];
-// }
+type BuyModalProps = {
+  activeProduct: ActiveProduct;
+}
 
-function BuyModal(): React.JSX.Element {
+function BuyModal({activeProduct}: BuyModalProps): React.JSX.Element {
   const dispatch = useAppDispatch();
   const isModalActive = useAppSelector(getIsModalActive);
-  const activeProduct = useAppSelector(getActiveProduct);
   const handleModalClose = () => {
-    // dispatch(clearActiveProduct());
     dispatch(setModalActive(false));
   };
+
+  const onCloseByKeyPress = (key: string) => {
+    if (key === 'Escape') {
+      handleModalClose();
+    }
+  };
+
+  useEffect(() => {
+    if (isModalActive) {
+      document.body.style.overflow = 'hidden';
+      document.body.addEventListener('keydown', (evt) => onCloseByKeyPress(evt.key));
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.body.removeEventListener('keydown', (evt) => {
+        onCloseByKeyPress(evt.key);
+      });
+    };
+  }, [isModalActive]);
 
   return (
     <div className={`modal ${isModalActive ? 'is-active' : ''}`}>
       <div className="modal__wrapper">
-        <div className="modal__overlay" />
+        <div className="modal__overlay" onClick={() => handleModalClose()} />
         <div className="modal__content">
           <p className="title title--h4">Добавить товар в корзину</p>
           <div className="basket-item basket-item--short">

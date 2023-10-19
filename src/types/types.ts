@@ -30,9 +30,14 @@ export type DataProcess = {
   products: Product[];
   promoProducts: PromoProduct[];
   isModalActive: boolean;
+  isBasketModalActive: boolean;
+  isReviewModalActive: boolean;
+  isReviewSuccessModalActive: boolean;
   activeProduct: ActiveProduct;
   similarProducts: Product[];
   reviews: ReviewType[];
+  isActiveProductLoading: boolean;
+  activeModalProduct: ActiveProduct;
 }
 
 export type State = ReturnType<typeof store.getState>;
@@ -54,7 +59,7 @@ export type ActiveProduct = {
   previewImg2x: string;
   previewImgWebp: string;
   previewImgWebp2x: string;
-} | null;
+};
 
 export type ReviewType = {
   id: string;
@@ -65,4 +70,17 @@ export type ReviewType = {
   disadvantage: string;
   review: string;
   rating: number;
+}
+
+export type FormData = {
+  'cameraId': number | undefined;
+  'userName': string;
+  'advantage': string;
+  'disadvantage': string;
+  'review': string;
+  'rating': number;
+}
+
+export interface Stars {
+  [key: number]: string;
 }
