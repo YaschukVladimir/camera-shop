@@ -24,15 +24,6 @@ export const createApi = (): AxiosInstance => {
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
   });
-
-  // api.interceptors.request.use(
-  //   (config: AxiosRequestConfig) => {
-  //     const token = getToken();
-  //     if (token && config.headers) {
-  //       config.headers['x-token'] = token;
-  //     }
-  //     return config;
-  //   });
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError<DetaiMessageType>) => {

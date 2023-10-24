@@ -1,19 +1,40 @@
-import Banner from '../../components/banner/banner';
+import { useEffect, useState } from 'react';
 import BreadCrumbs from '../../components/bread-crumbs/bread-crumbs';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import Icons from '../../components/icons/icons';
-import Pagination from '../../components/pagination/pagination';
+import CataloguePagination from '../../components/pagination/catalogue-pagination';
 import ProductCard from '../../components/product-card/product-card';
 import SortForm from '../../components/sort-form/sort-form';
 import FilterForm from '../../filter-form/filter-form';
-import { useAppSelector } from '../../hooks/use-app-dispatch';
-import { getProducts } from '../../store/data-process/selectors';
-
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { getActiveModalProduct, getProducts, getPromoProducts } from '../../store/data-process/selectors';
+import { PRODUCTS_PER_PAGE } from '../../const';
+import { useSearchParams } from 'react-router-dom';
+import BuyModal from '../../components/buy-modal/buy-modal';
+import 'swiper/swiper-bundle.css';
+import PromoSlider from '../../components/promo-slider/promo-slider';
 
 function Catalog(): React.JSX.Element {
 
   const products = useAppSelector(getProducts);
+  const promoProducts = useAppSelector(getPromoProducts);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const lastProductIndex = currentPage * PRODUCTS_PER_PAGE;
+  const firstProductIndex = lastProductIndex - PRODUCTS_PER_PAGE;
+  const currentProducts = products.slice(firstProductIndex, lastProductIndex);
+
+  const [searchParams, setSearchParams] = useSearchParams({page: '1'});
+  const pageQuery = searchParams.get('page') || '';
+
+  const activeProduct = useAppSelector(getActiveModalProduct);
+
+
+  useEffect (() => {
+    setCurrentPage(+pageQuery);
+  }, [pageQuery]);
 
   return (
     <>
@@ -23,7 +44,7 @@ function Catalog(): React.JSX.Element {
       <div className="wrapper">
         <Header />
         <main>
-          <Banner />
+          <PromoSlider promoProducts={promoProducts} />
           <div className="page-content">
             <div className="breadcrumbs">
               <BreadCrumbs />
@@ -38,14 +59,19 @@ function Catalog(): React.JSX.Element {
                   <div className="catalog__content">
                     <SortForm />
                     <div className="cards catalog__cards">
-                      {products.map((product) => <ProductCard key={product.id} product={product}/>)}
+                      {currentProducts.map((product) => <ProductCard key={product.id} product={product}/>)}
                     </div>
-                    <Pagination />
+                    <CataloguePagination
+                      products={products}
+                      setSearchParams={setSearchParams}
+                      currentPage={currentPage}
+                    />
                   </div>
                 </div>
               </div>
             </section>
           </div>
+          <BuyModal activeProduct={activeProduct}/>
         </main>
         <Footer />
       </div>

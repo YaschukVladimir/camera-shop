@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Logo from '../logo/logo';
 import Navigation from '../navigation/navigation';
 
@@ -7,7 +8,7 @@ function Header(): React.JSX.Element {
       <div className="container">
         <Logo />
         <Navigation />
-        <div className="form-search">
+        <div className="form-search" data-testid="form-search__container">
           <form>
             <label>
               <svg
@@ -50,11 +51,11 @@ function Header(): React.JSX.Element {
             <span className="visually-hidden">Сбросить поиск</span>
           </button>
         </div>
-        <a className="header__basket-link" href="#">
+        <Link className="header__basket-link" to="#">
           <svg width={16} height={16} aria-hidden="true">
             <use xlinkHref="#icon-basket" />
           </svg>
-        </a>
+        </Link>
       </div>
     </header>
   );
