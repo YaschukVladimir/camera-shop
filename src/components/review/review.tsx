@@ -25,24 +25,6 @@ function Review ({reviewProps}: ReviewProps): React.JSX.Element {
         </time>
       </div>
       <ReviewStars rating={rating} />
-      {/* <div className="rate review-card__rate">
-        <svg width={17} height={16} aria-hidden="true">
-          <use xlinkHref="#icon-full-star" />
-        </svg>
-        <svg width={17} height={16} aria-hidden="true">
-          <use xlinkHref="#icon-full-star" />
-        </svg>
-        <svg width={17} height={16} aria-hidden="true">
-          <use xlinkHref="#icon-full-star" />
-        </svg>
-        <svg width={17} height={16} aria-hidden="true">
-          <use xlinkHref="#icon-full-star" />
-        </svg>
-        <svg width={17} height={16} aria-hidden="true">
-          <use xlinkHref="#icon-full-star" />
-        </svg>
-        <p className="visually-hidden">Оценка: {rating}</p>
-      </div> */}
       <ul className="review-card__list">
         <li className="item-list">
           <span className="item-list__title">Достоинства:</span>

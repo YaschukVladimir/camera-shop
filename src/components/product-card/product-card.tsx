@@ -28,28 +28,6 @@ function ProductCard({product}: ProductCardProps):React.JSX.Element {
       </div>
       <div className="product-card__info">
         <ProductCardStars rating={product.rating} reviewCount={product.reviewCount} />
-        {/* <div className="rate product-card__rate">
-          <svg width={17} height={16} aria-hidden="true">
-            <use xlinkHref="#icon-full-star" />
-          </svg>
-          <svg width={17} height={16} aria-hidden="true">
-            <use xlinkHref="#icon-full-star" />
-          </svg>
-          <svg width={17} height={16} aria-hidden="true">
-            <use xlinkHref="#icon-full-star" />
-          </svg>
-          <svg width={17} height={16} aria-hidden="true">
-            <use xlinkHref="#icon-star" />
-          </svg>
-          <svg width={17} height={16} aria-hidden="true">
-            <use xlinkHref="#icon-star" />
-          </svg>
-          <p className="visually-hidden">Рейтинг: {product.rating}</p>
-          <p className="rate__count">
-            <span className="visually-hidden">Всего оценок:</span>
-            {product.reviewCount}
-          </p>
-        </div> */}
         <p className="product-card__title">
           {product.name}
         </p>
