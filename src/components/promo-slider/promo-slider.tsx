@@ -9,7 +9,7 @@ type PromoSliderProps = {
 
 function PromoSlider({promoProducts}: PromoSliderProps): React.JSX.Element {
   return (
-    <div className='swipper-wrapper'>
+    <div className='swipper-wrapper' data-testid="slider-container">
       <Swiper modules={[Navigation, Pagination, Autoplay]}
         slidesPerView={1}
         autoHeight

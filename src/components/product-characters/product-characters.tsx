@@ -8,7 +8,7 @@ type ProductCharactersProps = {
 function ProductCharacters({activeProduct, activeTab}: ProductCharactersProps): React.JSX.Element {
 
   return (
-    <div className={`"tabs__element" ${activeTab === 'characters' ? 'is-active' : ''}`}>
+    <div className={`"tabs__element" ${activeTab === 'characters' ? 'is-active' : ''}`} data-testid="characters-list__container">
       <ul className="product__tabs-list">
         <li className="item-list">
           <span className="item-list__title">Артикул:</span>

@@ -7,7 +7,7 @@ type ProductDescriptionProps = {
 
 function ProductDescription ({activeProduct, activeTab}: ProductDescriptionProps): React.JSX.Element {
   return (
-    <div className={`'tabs__element'${activeTab === 'description' ? 'is-active' : ''}`}>
+    <div className={`'tabs__element'${activeTab === 'description' ? 'is-active' : ''}`} data-testid="description-container">
       <div className="product__tabs-text">
         <p>
           {activeProduct?.description}

@@ -34,6 +34,7 @@ function ReviewModal ({id}: ReviewModalProps): React.JSX.Element {
   };
 
   type FormValues = {
+    cameraId: number;
     userName: string;
     advantage: string;
     disadvantage: string;
@@ -71,7 +72,7 @@ function ReviewModal ({id}: ReviewModalProps): React.JSX.Element {
         <div className="modal__content">
           <p className="title title--h4">Оставить отзыв</p>
           <div className="form-review">
-            <form method="post" action="https://echo.htmlacademy.ru/" onSubmit={handleSubmit(onSubmitForm)}>
+            <form method="post" action="https://echo.htmlacademy.ru/" onSubmit={(evt) => void handleSubmit(onSubmitForm)(evt)}>
               <div className="form-review__rate">
                 <fieldset className={`rate form-review__item ${errors.rating ? 'is-invalid' : ''}`}>
                   <legend className="rate__caption">
@@ -92,9 +93,10 @@ function ReviewModal ({id}: ReviewModalProps): React.JSX.Element {
                             id={`star-${star}`}
                             type="radio"
                             defaultValue={star}
-                            onInput={() => {
-                              setRating(star);
+                            onInput={(evt: React.ChangeEvent<HTMLInputElement>) => {
+                              setRating(+evt.target.value);
                             }}
+                            data-testid="rating-input"
                           />
                           <label
                             className="rate__label"
@@ -126,9 +128,9 @@ function ReviewModal ({id}: ReviewModalProps): React.JSX.Element {
                         maxLength: 160
                       })}
                       type="text"
-                      // name="user-name"
                       placeholder="Введите ваше имя"
                       onInput={(evt:React.ChangeEvent<HTMLInputElement>) => setUserName(evt.target.value)}
+                      data-testid="name-input"
                     />
                   </label>
                   <p className="custom-input__error">Нужно указать имя</p>
@@ -148,11 +150,11 @@ function ReviewModal ({id}: ReviewModalProps): React.JSX.Element {
                         maxLength: 160
                       })}
                       type="text"
-                      // name="user-plus"
                       placeholder="Основные преимущества товара"
                       onInput={(evt: React.ChangeEvent<HTMLInputElement>) => {
                         setAdvantage(evt.target.value);
                       }}
+                      data-testid="advantage-input"
                     />
                   </label>
                   <p className="custom-input__error">Нужно указать достоинства</p>
@@ -172,9 +174,9 @@ function ReviewModal ({id}: ReviewModalProps): React.JSX.Element {
                         maxLength: 160
                       })}
                       type="text"
-                      // name="user-minus"
                       placeholder="Главные недостатки товара"
                       onInput={(evt: React.ChangeEvent<HTMLInputElement>) => setDisadvantage(evt.target.value)}
+                      data-testid="disadvantage-input"
                     />
                     <p className="custom-input__error">Нужно указать недостатки</p>
                   </label>
@@ -194,17 +196,16 @@ function ReviewModal ({id}: ReviewModalProps): React.JSX.Element {
                         minLength: 2,
                         maxLength: 160
                       })}
-                      // name="user-comment"
-                      // minLength={5}
                       placeholder="Поделитесь своим опытом покупки"
                       defaultValue={''}
                       onInput={(evt: React.ChangeEvent<HTMLTextAreaElement>) => setReview(evt.target.value)}
+                      data-testid="review-textarea"
                     />
                   </label>
                   <div className="custom-textarea__error">Нужно добавить комментарий</div>
                 </div>
               </div>
-              <button className="btn btn--purple form-review__btn" type="submit">
+              <button className="btn btn--purple form-review__btn" type="submit" data-testid="submit-button">
             Отправить отзыв
               </button>
             </form>

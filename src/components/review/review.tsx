@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { ReviewType } from '../../types/types';
+import ReviewStars from '../review-stars/review-stars';
 
 
 type ReviewProps = {
@@ -16,14 +17,15 @@ function Review ({reviewProps}: ReviewProps): React.JSX.Element {
   });
 
   return (
-    <li className="review-card">
+    <li className="review-card" data-testid="review-list__element">
       <div className="review-card__head">
         <p className="title title--h4">{userName}</p>
         <time className="review-card__data" dateTime={createAt}>
           {formatedDate}
         </time>
       </div>
-      <div className="rate review-card__rate">
+      <ReviewStars rating={rating} />
+      {/* <div className="rate review-card__rate">
         <svg width={17} height={16} aria-hidden="true">
           <use xlinkHref="#icon-full-star" />
         </svg>
@@ -40,7 +42,7 @@ function Review ({reviewProps}: ReviewProps): React.JSX.Element {
           <use xlinkHref="#icon-full-star" />
         </svg>
         <p className="visually-hidden">Оценка: {rating}</p>
-      </div>
+      </div> */}
       <ul className="review-card__list">
         <li className="item-list">
           <span className="item-list__title">Достоинства:</span>

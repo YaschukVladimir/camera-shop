@@ -9,6 +9,7 @@ export default function SlideNextButton() {
       type="button"
       aria-label="Следующий слайд"
       onClick={() => swiper.slideNext()}
+      data-testid="next-button"
     >
       <svg width={7} height={12} aria-hidden="true">
         <use xlinkHref="#icon-arrow" />

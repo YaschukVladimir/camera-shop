@@ -318,7 +318,7 @@ function Product(): React.JSX.Element {
                 </div>
               </div>
               <div className="page-content__section">
-                <section className="product">
+                <section className="product" data-testid="product-section">
                   <div className="container">
                     <div className="product__img">
                       <picture>

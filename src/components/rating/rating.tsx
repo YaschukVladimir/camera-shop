@@ -6,7 +6,7 @@ type RatingProps = {
 
 function Rating({activeProduct}: RatingProps): React.JSX.Element {
   return (
-    <div className="rate product__rate">
+    <div className="rate product__rate" data-testid="rating-container">
       <svg width={17} height={16} aria-hidden="true">
         <use xlinkHref="#icon-full-star" />
       </svg>

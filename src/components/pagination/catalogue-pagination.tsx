@@ -35,7 +35,7 @@ function CataloguePagination({products, setSearchParams, currentPage}: Paginatio
 
   return (
     <div className="pagination">
-      <ul className="pagination__list">
+      <ul className="pagination__list" data-testid="pagination-list">
         {currentPage > 1 ?
           <PaginationButtonPrev
             setSearchParams={setSearchParams}

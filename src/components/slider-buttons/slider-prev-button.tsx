@@ -9,6 +9,7 @@ export default function SlidePrevButton() {
       type="button"
       aria-label="Предыдущий слайд"
       onClick={() => swiper.slidePrev()}
+      data-testid="prev-button"
     >
       <svg width={7} height={12} aria-hidden="true">
         <use xlinkHref="#icon-arrow" />

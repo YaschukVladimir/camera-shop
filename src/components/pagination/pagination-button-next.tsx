@@ -18,6 +18,7 @@ function PaginationButtonNext(props: PaginationButtonProps): React.JSX.Element {
       onClick={() => {
         setSearchParams({page: step(currentPage, direction)});
       }}
+      data-testid="pagination-button"
     >
       {direction}
     </div>

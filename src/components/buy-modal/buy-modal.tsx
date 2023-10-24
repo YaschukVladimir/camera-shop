@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { setModalActive } from '../../store/data-process/data-process';
 import { getIsModalActive} from '../../store/data-process/selectors';
 import { ActiveProduct } from '../../types/types';
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { useModalCloseEffect } from '../../hooks/use-modal-close-effect';
 
 type BuyModalProps = {
   activeProduct: ActiveProduct;
@@ -22,22 +23,11 @@ function BuyModal({activeProduct}: BuyModalProps): React.JSX.Element {
     }
   };
 
-  useEffect(() => {
-    if (isModalActive) {
-      document.body.style.overflow = 'hidden';
-      document.body.addEventListener('keydown', (evt) => onCloseByKeyPress(evt.key));
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-      document.body.removeEventListener('keydown', (evt) => {
-        onCloseByKeyPress(evt.key);
-      });
-    };
-  }, [isModalActive]);
+  useModalCloseEffect(isModalActive, onCloseByKeyPress);
 
   return (
     <div className={`modal ${isModalActive ? 'is-active' : ''}`}>
-      <div className="modal__wrapper">
+      <div className="modal__wrapper" data-testid="modal-wrapper">
         <div className="modal__overlay" onClick={() => handleModalClose()} />
         <div className="modal__content">
           <p className="title title--h4">Добавить товар в корзину</p>

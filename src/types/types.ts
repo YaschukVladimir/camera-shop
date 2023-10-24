@@ -1,4 +1,6 @@
+import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { store } from '../store';
+import { createApi } from '../services/api';
 
 export type Product = {
 id: number;
@@ -84,3 +86,5 @@ export type FormData = {
 export interface Stars {
   [key: number]: string;
 }
+
+export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createApi>, Action>;

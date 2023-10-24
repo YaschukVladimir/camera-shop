@@ -1,12 +1,14 @@
 import { Product } from '../../types/types';
 import BuyButton from '../buttons/buy-button';
 import DetailsButton from '../buttons/details-button';
+import ProductCardStars from '../product-card-stars/product-card-stars';
 
 type ProductCardProps = {
   product: Product;
 }
 
 function ProductCard({product}: ProductCardProps):React.JSX.Element {
+
   return (
     <div className="product-card is-active">
       <div className="product-card__img">
@@ -25,7 +27,8 @@ function ProductCard({product}: ProductCardProps):React.JSX.Element {
         </picture>
       </div>
       <div className="product-card__info">
-        <div className="rate product-card__rate">
+        <ProductCardStars rating={product.rating} reviewCount={product.reviewCount} />
+        {/* <div className="rate product-card__rate">
           <svg width={17} height={16} aria-hidden="true">
             <use xlinkHref="#icon-full-star" />
           </svg>
@@ -46,7 +49,7 @@ function ProductCard({product}: ProductCardProps):React.JSX.Element {
             <span className="visually-hidden">Всего оценок:</span>
             {product.reviewCount}
           </p>
-        </div>
+        </div> */}
         <p className="product-card__title">
           {product.name}
         </p>

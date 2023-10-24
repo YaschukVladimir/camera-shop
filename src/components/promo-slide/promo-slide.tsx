@@ -10,7 +10,7 @@ type SliderBannerProps = {
 function PromoSlide({activePromo}: SliderBannerProps): React.JSX.Element {
   return (
     <div className="banner">
-      <picture>
+      <picture data-testid="picture">
         <source
           type="image/webp"
           srcSet={`${activePromo.previewImgWebp}, ${activePromo.previewImgWebp2x}`}
