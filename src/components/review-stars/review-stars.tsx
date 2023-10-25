@@ -3,7 +3,7 @@ type ReviviewStarsProps = {
   rating: number;
 }
 
-function ReviewStars({rating}: ReviviewStarsProps): React.JSX.Element | undefined {
+function ReviewStars({rating}: ReviviewStarsProps): React.JSX.Element {
 
   switch (rating) {
     case 1:
@@ -112,7 +112,10 @@ function ReviewStars({rating}: ReviviewStarsProps): React.JSX.Element | undefine
         </div>
       );
     default:
-      break;
+      return (
+        <>
+        </>
+      );
   }
 }
 

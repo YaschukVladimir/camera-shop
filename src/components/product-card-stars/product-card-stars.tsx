@@ -4,7 +4,7 @@ type ProductCardStarsProps = {
   reviewCount: number;
 }
 
-function ProductCardStars({rating, reviewCount}: ProductCardStarsProps): React.JSX.Element | undefined {
+function ProductCardStars({rating, reviewCount}: ProductCardStarsProps): React.JSX.Element {
   switch (rating) {
     case 1:
       return (
@@ -130,6 +130,11 @@ function ProductCardStars({rating, reviewCount}: ProductCardStarsProps): React.J
             {reviewCount}
           </p>
         </div>
+      );
+    default:
+      return (
+        <>
+        </>
       );
   }
 }
