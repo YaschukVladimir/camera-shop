@@ -15,7 +15,7 @@ function DetailsButton({ id }: DetailsButtonProps): React.JSX.Element {
   };
 
   return (
-    <Link className="btn btn--transparent" to={`product/${id}/description`} onClick={() => {
+    <Link className="btn btn--transparent" to={`/product/${id}/description`} onClick={() => {
       handleDetailsClick();
     }}
     >
