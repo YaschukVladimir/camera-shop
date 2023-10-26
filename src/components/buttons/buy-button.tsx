@@ -7,7 +7,7 @@ type BuyButtonProps = {
   id: number;
 }
 
-function BuyButton({id}: BuyButtonProps): React.JSX.Element {
+function BuyButton({ id }: BuyButtonProps): React.JSX.Element {
 
   const dispatch = useAppDispatch();
   return (
@@ -19,7 +19,7 @@ function BuyButton({id}: BuyButtonProps): React.JSX.Element {
         dispatch(setModalActive(true));
       }}
     >
-                        Купить
+      Купить
     </button>
   );
 }

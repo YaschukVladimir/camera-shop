@@ -8,11 +8,10 @@ function CameraTypeFilter(): React.JSX.Element {
           <input
             type="checkbox"
             name="digital"
-            defaultChecked
           />
           <span className="custom-checkbox__icon" />
           <span className="custom-checkbox__label">
-                            Цифровая
+            Цифровая
           </span>
         </label>
       </div>
@@ -21,7 +20,7 @@ function CameraTypeFilter(): React.JSX.Element {
           <input type="checkbox" name="film" disabled />
           <span className="custom-checkbox__icon" />
           <span className="custom-checkbox__label">
-                            Плёночная
+            Плёночная
           </span>
         </label>
       </div>
@@ -30,7 +29,7 @@ function CameraTypeFilter(): React.JSX.Element {
           <input type="checkbox" name="snapshot" />
           <span className="custom-checkbox__icon" />
           <span className="custom-checkbox__label">
-                            Моментальная
+            Моментальная
           </span>
         </label>
       </div>
@@ -44,7 +43,7 @@ function CameraTypeFilter(): React.JSX.Element {
           />
           <span className="custom-checkbox__icon" />
           <span className="custom-checkbox__label">
-                            Коллекционная
+            Коллекционная
           </span>
         </label>
       </div>

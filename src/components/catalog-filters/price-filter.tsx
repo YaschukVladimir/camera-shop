@@ -1,7 +1,7 @@
 
 
 function PriceFilter(): React.JSX.Element {
-  return(
+  return (
     <fieldset className="catalog-filter__block">
       <legend className="title title--h5">Цена, ₽</legend>
       <div className="catalog-filter__price-range">

@@ -7,11 +7,10 @@ function CategoryFilter(): React.JSX.Element {
           <input
             type="checkbox"
             name="photocamera"
-            defaultChecked
           />
           <span className="custom-checkbox__icon" />
           <span className="custom-checkbox__label">
-                            Фотокамера
+            Фотокамера
           </span>
         </label>
       </div>
@@ -20,7 +19,7 @@ function CategoryFilter(): React.JSX.Element {
           <input type="checkbox" name="videocamera" />
           <span className="custom-checkbox__icon" />
           <span className="custom-checkbox__label">
-                            Видеокамера
+            Видеокамера
           </span>
         </label>
       </div>

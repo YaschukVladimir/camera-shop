@@ -32,7 +32,7 @@ function ProductCard({product}: ProductCardProps):React.JSX.Element {
           {product.name}
         </p>
         <p className="product-card__price">
-          <span className="visually-hidden">Цена:</span>{`${product.price} ₽`}
+          <span className="visually-hidden">Цена:</span>{`${new Intl.NumberFormat().format(product.price)} ₽`}
         </p>
       </div>
       <div className="product-card__buttons">

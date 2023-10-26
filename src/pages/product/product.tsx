@@ -339,7 +339,7 @@ function Product(): React.JSX.Element {
                       <h1 className="title title--h3">{activeProduct?.name}</h1>
                       <Rating activeProduct={activeProduct} />
                       <p className="product__price">
-                        <span className="visually-hidden">Цена:</span>{activeProduct?.price} ₽
+                        <span className="visually-hidden">Цена:</span>{`${new Intl.NumberFormat().format(activeProduct.price)} ₽`}
                       </p>
                       <button className="btn btn--purple" type="button" onClick={() => onBuyButtonClick()}>
                         <svg width={24} height={16} aria-hidden="true">

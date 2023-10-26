@@ -58,7 +58,7 @@ function BuyModal({activeProduct}: BuyModalProps): React.JSX.Element {
                 <li className="basket-item__list-item">{activeProduct?.level}</li>
               </ul>
               <p className="basket-item__price">
-                <span className="visually-hidden">Цена:</span>{activeProduct?.price} ₽
+                <span className="visually-hidden">Цена:</span>{`${new Intl.NumberFormat().format(activeProduct.price)} ₽`}
               </p>
             </div>
           </div>

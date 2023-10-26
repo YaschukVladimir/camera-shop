@@ -7,11 +7,10 @@ function CameraLevelFilter(): React.JSX.Element {
           <input
             type="checkbox"
             name="zero"
-            defaultChecked
           />
           <span className="custom-checkbox__icon" />
           <span className="custom-checkbox__label">
-                            Нулевой
+            Нулевой
           </span>
         </label>
       </div>
@@ -20,7 +19,7 @@ function CameraLevelFilter(): React.JSX.Element {
           <input type="checkbox" name="non-professional" />
           <span className="custom-checkbox__icon" />
           <span className="custom-checkbox__label">
-                            Любительский
+            Любительский
           </span>
         </label>
       </div>
@@ -29,7 +28,7 @@ function CameraLevelFilter(): React.JSX.Element {
           <input type="checkbox" name="professional" />
           <span className="custom-checkbox__icon" />
           <span className="custom-checkbox__label">
-                            Профессиональный
+            Профессиональный
           </span>
         </label>
       </div>
