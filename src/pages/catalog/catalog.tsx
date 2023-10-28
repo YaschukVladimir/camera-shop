@@ -36,6 +36,7 @@ function Catalog(): React.JSX.Element {
     setCurrentPage(+pageQuery);
   }, [pageQuery]);
 
+
   return (
     <>
       <div className="visually-hidden">

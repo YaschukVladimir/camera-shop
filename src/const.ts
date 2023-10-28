@@ -3,8 +3,8 @@ import { Stars } from './types/types';
 export enum AppRoute {
   Root = '/',
   Catalogue = '/',
-  Product = 'product/:id/',
-  ProductAbout = 'product/:id/:title',
+  Product = '/product/:id/',
+  ProductAbout = '/product/:id/:title',
   Basket = '/basket',
   Guarantees = '/',
   Delivery = '/',

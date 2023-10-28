@@ -7,6 +7,8 @@ import 'swiper/swiper-bundle.css';
 import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import SlidePrevButton from '../slider-buttons/slider-prev-button';
 import SlideNextButton from '../slider-buttons/slider-next-button';
+import { useState } from 'react';
+
 
 type SimilarProductsSlider = {
   similarProducts: Product[];
@@ -15,7 +17,10 @@ type SimilarProductsSlider = {
 
 const PRODUCTS_PER_STEP = 3;
 
-function SimilarProductsSlider({similarProducts}: SimilarProductsSlider): React.JSX.Element {
+function SimilarProductsSlider({ similarProducts }: SimilarProductsSlider): React.JSX.Element {
+
+  const [isEnd, setIsEnd] = useState(false);
+  const [isStart, setIsStart] = useState(true);
 
   return (
     <div className="product-similar__slider" data-testid="slider-container">
@@ -28,13 +33,29 @@ function SimilarProductsSlider({similarProducts}: SimilarProductsSlider): React.
           style={{
             position: 'unset'
           }}
+          onSlideChange={() => {
+            if(isEnd) {
+              setIsEnd(false);
+            }
+            if(isStart) {
+              setIsStart(false);
+            }
+          }}
+          onReachBeginning={() => {
+            setIsStart(true);
+            setIsEnd(false);
+          }}
+          onReachEnd={() => {
+            setIsEnd(true);
+            setIsStart(false);
+          }}
         >
-          <SlidePrevButton />
+          <SlidePrevButton isStart={isStart} />
           {similarProducts.map((product) => (
             <SwiperSlide key={product.id}>
-              <ProductCard product={product}/>
+              <ProductCard product={product} />
             </SwiperSlide>))}
-          <SlideNextButton />
+          <SlideNextButton isEnd={isEnd} />
         </Swiper>
       </div>
     </div>

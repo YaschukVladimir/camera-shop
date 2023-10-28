@@ -1,16 +1,19 @@
 
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { setModalActive } from '../../store/data-process/data-process';
-import { getIsModalActive} from '../../store/data-process/selectors';
+import { getIsModalActive } from '../../store/data-process/selectors';
 import { ActiveProduct } from '../../types/types';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useModalCloseEffect } from '../../hooks/use-modal-close-effect';
+import { useEffect, useRef } from 'react';
+import { useFocusTrap } from '../../hooks/use-focus-trap';
 
 type BuyModalProps = {
   activeProduct: ActiveProduct;
 }
 
-function BuyModal({activeProduct}: BuyModalProps): React.JSX.Element {
+
+function BuyModal({ activeProduct }: BuyModalProps): React.JSX.Element {
   const dispatch = useAppDispatch();
   const isModalActive = useAppSelector(getIsModalActive);
   const handleModalClose = () => {
@@ -25,9 +28,23 @@ function BuyModal({activeProduct}: BuyModalProps): React.JSX.Element {
 
   useModalCloseEffect(isModalActive, onCloseByKeyPress);
 
+  const purpleButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (isModalActive && purpleButtonRef.current) {
+      setTimeout(() => {
+        purpleButtonRef.current?.focus();
+      }, 300);
+    }
+  }, [isModalActive]);
+
+  const modalRef = useFocusTrap({isModalActive});
+
   return (
-    <div className={`modal ${isModalActive ? 'is-active' : ''}`}>
-      <div className="modal__wrapper" data-testid="modal-wrapper">
+    <div className={`modal ${isModalActive ? 'is-active' : ''}`} role="dialog" aria-modal="true" ref={modalRef}>
+      <div className="modal__wrapper" data-testid="modal-wrapper" >
         <div className="modal__overlay" onClick={() => handleModalClose()} />
         <div className="modal__content">
           <p className="title title--h4">Добавить товар в корзину</p>
@@ -66,14 +83,15 @@ function BuyModal({activeProduct}: BuyModalProps): React.JSX.Element {
             <button
               className="btn btn--purple modal__btn modal__btn--fit-width"
               type="button"
+              ref={purpleButtonRef}
             >
               <svg width={24} height={16} aria-hidden="true">
                 <use xlinkHref="#icon-add-basket" />
               </svg>
-          Добавить в корзину
+              Добавить в корзину
             </button>
           </div>
-          <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={handleModalClose}>
+          <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={handleModalClose} ref={closeButtonRef}>
             <svg width={10} height={10} aria-hidden="true">
               <use xlinkHref="#icon-close" />
             </svg>
@@ -81,8 +99,8 @@ function BuyModal({activeProduct}: BuyModalProps): React.JSX.Element {
         </div>
       </div>
     </div>
-
   );
 }
 
 export default BuyModal;
+

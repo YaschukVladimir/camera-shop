@@ -390,7 +390,11 @@ function Product(): React.JSX.Element {
                   <div className="container">
                     <div className="page-content__headed">
                       <h2 className="title title--h3">Отзывы</h2>
-                      <button className="btn" type="button" onClick={() => dispatch(setReviewModalActive(true))}>
+                      <button className="btn" type="button" onClick={(evt) => {
+                        dispatch(setReviewModalActive(true));
+                        evt.currentTarget.blur();
+                      }}
+                      >
                       Оставить свой отзыв
                       </button>
                     </div>

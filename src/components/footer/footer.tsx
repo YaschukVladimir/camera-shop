@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 
 function Footer(): React.JSX.Element {
   return (
-    <footer className="footer">
-      <div className="container" data-testid="footer-container">
+    <footer className="footer" aria-hidden="true">
+      <div className="container" data-testid="footer-container" aria-hidden="true">
         <div className="footer__info">
           <Link
             className="footer__logo"

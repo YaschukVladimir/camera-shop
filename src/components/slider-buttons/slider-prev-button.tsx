@@ -1,6 +1,10 @@
 import { useSwiper } from 'swiper/react';
 
-export default function SlidePrevButton() {
+type SlidePrevButtonProps = {
+  isStart: boolean;
+}
+
+export default function SlidePrevButton({isStart}: SlidePrevButtonProps) {
   const swiper = useSwiper();
 
   return (
@@ -8,8 +12,11 @@ export default function SlidePrevButton() {
       className="slider-controls slider-controls--prev"
       type="button"
       aria-label="Предыдущий слайд"
-      onClick={() => swiper.slidePrev()}
+      onClick={() => {
+        swiper.slidePrev();
+      }}
       data-testid="prev-button"
+      disabled={isStart}
     >
       <svg width={7} height={12} aria-hidden="true">
         <use xlinkHref="#icon-arrow" />

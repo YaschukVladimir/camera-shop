@@ -1,6 +1,11 @@
 import { useSwiper } from 'swiper/react';
 
-export default function SlideNextButton() {
+type SlideNextButtonProps = {
+  isEnd: boolean;
+}
+
+
+export default function SlideNextButton({isEnd}: SlideNextButtonProps) {
   const swiper = useSwiper();
 
   return (
@@ -10,6 +15,7 @@ export default function SlideNextButton() {
       aria-label="Следующий слайд"
       onClick={() => swiper.slideNext()}
       data-testid="next-button"
+      disabled={isEnd}
     >
       <svg width={7} height={12} aria-hidden="true">
         <use xlinkHref="#icon-arrow" />

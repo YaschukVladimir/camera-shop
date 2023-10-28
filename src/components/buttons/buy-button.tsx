@@ -14,9 +14,10 @@ function BuyButton({ id }: BuyButtonProps): React.JSX.Element {
     <button
       className="btn btn--purple product-card__btn"
       type="button"
-      onClick={() => {
+      onClick={(evt) => {
         dispatch(fetchActiveModalProduct(id));
         dispatch(setModalActive(true));
+        evt.currentTarget.blur();
       }}
     >
       Купить

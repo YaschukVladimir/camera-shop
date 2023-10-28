@@ -5,7 +5,9 @@ export const useModalCloseEffect = (modalActiveStatus: boolean, keyPressCb: (arg
   useEffect(() => {
     if (modalActiveStatus) {
       document.body.style.overflow = 'hidden';
-      document.body.addEventListener('keydown', (evt) => keyPressCb(evt.key));
+      document.body.addEventListener('keydown', (evt) => {
+        keyPressCb(evt.key);
+      });
     }
     return () => {
       document.body.style.overflow = 'unset';

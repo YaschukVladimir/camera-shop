@@ -1,6 +1,7 @@
 
 import { useAppDispatch} from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
+import { useFocusTrap } from '../../hooks/use-focus-trap';
 import { useModalCloseEffect } from '../../hooks/use-modal-close-effect';
 import { setReviewSuccessModalActive } from '../../store/data-process/data-process';
 import { getIsReviewSuccessModalActive } from '../../store/data-process/selectors';
@@ -19,8 +20,10 @@ function ReviewSuccessModal(): React.JSX.Element {
 
   useModalCloseEffect(isModalActive, onCloseByKeyPress);
 
+  const modalRef = useFocusTrap({isModalActive});
+
   return (
-    <div className={`modal ${isModalActive ? 'is-active' : ''} modal--narrow`} >
+    <div className={`modal ${isModalActive ? 'is-active' : ''} modal--narrow`} ref={modalRef}>
       <div className="modal__wrapper">
         <div className="modal__overlay" onClick={() => dispatch(setReviewSuccessModalActive(false))}/>
         <div className="modal__content">
