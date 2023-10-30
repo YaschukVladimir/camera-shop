@@ -23,7 +23,7 @@ function PromoSlide({activePromo}: SliderBannerProps): React.JSX.Element {
           alt="баннер"
         />
       </picture>
-      <p className="banner__info" style={{padding: '40px 20px 40px 20px'}}>
+      <p className="banner__info" >
         <span className="banner__message">Новинка!</span>
         <span className="title title--h1">
           {activePromo.name}

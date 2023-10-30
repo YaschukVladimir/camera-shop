@@ -17,9 +17,9 @@ function PromoSlider({promoProducts}: PromoSliderProps): React.JSX.Element {
         style={{
           position: 'relative'
         }}
-        autoplay={{
-          delay: 3000,
-        }}
+        // autoplay={{
+        //   delay: 3000,
+        // }}
         pagination={{
           el: '.swipper-pagination',
           clickable: true,
@@ -31,13 +31,15 @@ function PromoSlider({promoProducts}: PromoSliderProps): React.JSX.Element {
           </SwiperSlide>))}
         <div className='swipper-pagination'
           style={{
-            width: 74,
-            height: 16,
+            width: 80,
+            height: 20,
             position: 'absolute',
-            bottom: 32,
-            right: 30,
+            bottom: 20,
+            right: 64,
             zIndex: 1000,
             left: 'auto',
+            display: 'flex',
+            justifyContent: 'space-between'
           }}
         >
         </div>
