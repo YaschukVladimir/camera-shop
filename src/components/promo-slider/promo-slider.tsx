@@ -35,7 +35,7 @@ function PromoSlider({promoProducts}: PromoSliderProps): React.JSX.Element {
             height: 20,
             position: 'absolute',
             bottom: 20,
-            right: 64,
+            right: 38,
             zIndex: 1000,
             left: 'auto',
             display: 'flex',
