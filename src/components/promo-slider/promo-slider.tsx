@@ -17,9 +17,9 @@ function PromoSlider({promoProducts}: PromoSliderProps): React.JSX.Element {
         style={{
           position: 'relative'
         }}
-        // autoplay={{
-        //   delay: 3000,
-        // }}
+        autoplay={{
+          delay: 3000,
+        }}
         pagination={{
           el: '.swipper-pagination',
           clickable: true,
