@@ -31,7 +31,7 @@ function PromoSlide({activePromo}: SliderBannerProps): React.JSX.Element {
         <span className="banner__text">
           Профессиональная камера от&nbsp;известного производителя
         </span>
-        <DetailsButton id={activePromo.id} />
+        <DetailsButton id={activePromo.id} buttonClass='' />
       </p>
     </div>
   );

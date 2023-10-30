@@ -4,9 +4,10 @@ import { setModalActive } from '../../store/data-process/data-process';
 
 type DetailsButtonProps = {
   id: number;
+  buttonClass: string;
 }
 
-function DetailsButton({ id }: DetailsButtonProps): React.JSX.Element {
+function DetailsButton({ id, buttonClass }: DetailsButtonProps): React.JSX.Element {
 
   const dispatch = useAppDispatch();
 
@@ -15,7 +16,7 @@ function DetailsButton({ id }: DetailsButtonProps): React.JSX.Element {
   };
 
   return (
-    <Link className="btn btn--transparent" to={`/product/${id}/description`} onClick={() => {
+    <Link className={`btn ${buttonClass}`} to={`/product/${id}/description`} onClick={() => {
       handleDetailsClick();
     }}
     >

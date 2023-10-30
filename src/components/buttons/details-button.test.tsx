@@ -10,7 +10,7 @@ describe('Component: DetailsButton', () => {
     };
     const { id } = expectedProps;
     const expectedText = 'Подробнее';
-    const { withStoreComponent } = withStore(<DetailsButton id={id} />, {});
+    const { withStoreComponent } = withStore(<DetailsButton id={id} buttonClass='btn--transparent'/>, {});
     const preparedComponent = withHistory(withStoreComponent);
     render(preparedComponent);
 
