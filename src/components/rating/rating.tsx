@@ -1,4 +1,5 @@
 import { ActiveProduct } from '../../types/types';
+import { STARS_QUANTITY, showRateStars } from '../product-card-stars/product-card-stars';
 
 type RatingProps = {
   activeProduct: ActiveProduct;
@@ -7,21 +8,7 @@ type RatingProps = {
 function Rating({activeProduct}: RatingProps): React.JSX.Element {
   return (
     <div className="rate product__rate" data-testid="rating-container">
-      <svg width={17} height={16} aria-hidden="true">
-        <use xlinkHref="#icon-full-star" />
-      </svg>
-      <svg width={17} height={16} aria-hidden="true">
-        <use xlinkHref="#icon-full-star" />
-      </svg>
-      <svg width={17} height={16} aria-hidden="true">
-        <use xlinkHref="#icon-full-star" />
-      </svg>
-      <svg width={17} height={16} aria-hidden="true">
-        <use xlinkHref="#icon-full-star" />
-      </svg>
-      <svg width={17} height={16} aria-hidden="true">
-        <use xlinkHref="#icon-star" />
-      </svg>
+      {showRateStars(STARS_QUANTITY, activeProduct.rating)}
       <p className="visually-hidden">Рейтинг: {activeProduct?.rating}</p>
       <p className="rate__count">
         <span className="visually-hidden">Всего оценок:</span>{activeProduct?.reviewCount}
