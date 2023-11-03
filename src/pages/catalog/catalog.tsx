@@ -14,17 +14,22 @@ import { useSearchParams } from 'react-router-dom';
 import BuyModal from '../../components/buy-modal/buy-modal';
 import 'swiper/swiper-bundle.css';
 import PromoSlider from '../../components/promo-slider/promo-slider';
+import { getSortDirection, getSortType } from '../../store/app-process/selectors';
+import { sortProducts } from '../../utils/utils';
 
 function Catalog(): React.JSX.Element {
 
   const products = useAppSelector(getProducts);
   const promoProducts = useAppSelector(getPromoProducts);
+  const sortType = useAppSelector(getSortType);
+  const sortDirection = useAppSelector(getSortDirection);
+  const sortedProducts = sortProducts(products, sortType, sortDirection);
 
   const [currentPage, setCurrentPage] = useState(1);
 
   const lastProductIndex = currentPage * PRODUCTS_PER_PAGE;
   const firstProductIndex = lastProductIndex - PRODUCTS_PER_PAGE;
-  const currentProducts = products.slice(firstProductIndex, lastProductIndex);
+  const currentProducts = sortedProducts.slice(firstProductIndex, lastProductIndex);
 
   const [searchParams, setSearchParams] = useSearchParams({page: '1'});
   const pageQuery = searchParams.get('page') || '';
@@ -36,14 +41,13 @@ function Catalog(): React.JSX.Element {
     setCurrentPage(+pageQuery);
   }, [pageQuery]);
 
-
   return (
     <>
       <div className="visually-hidden">
         <Icons />
       </div>
       <div className="wrapper">
-        <Header />
+        <Header products={products}/>
         <main>
           <PromoSlider promoProducts={promoProducts} />
           <div className="page-content">

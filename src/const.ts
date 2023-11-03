@@ -52,3 +52,13 @@ export const STARS_TITLES: Stars = {
 };
 
 export const starsValues: number[] = [5, 4, 3, 2, 1];
+
+export enum SortType {
+  byPrice = 'Price',
+  byPopular = 'Popular'
+}
+
+export enum SortDirection {
+  HighToLow = 'HighToLow',
+  LowToHigh = 'LowToHigh'
+}
