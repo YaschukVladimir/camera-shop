@@ -39,7 +39,7 @@ function SearchForm({products}: SearchFormProps): React.JSX.Element {
     }
   };
 
-  const searchProducts = products.filter((product) => product.name.toLowerCase().includes(searchValue.toLowerCase()));
+  const searchProducts = products ? products.filter((product) => product.name.toLowerCase().includes(searchValue.toLowerCase())) : [];
 
   const handleKeyPress = (evt: KeyboardEvent) => {
     if (evt.key === 'Escape') {
@@ -75,7 +75,7 @@ function SearchForm({products}: SearchFormProps): React.JSX.Element {
           />
         </label>
         <ul className="form-search__select-list" ref={listRef}>
-          {searchProducts.map((product) => (
+          {searchProducts.length ? searchProducts.map((product) => (
             <li className="form-search__select-item"
               tabIndex={0} key={product.id}
               onClick={() => navigate(`/product/${product.id}/description`)}
@@ -90,7 +90,7 @@ function SearchForm({products}: SearchFormProps): React.JSX.Element {
             >
               {product.name}
             </li>
-          ))}
+          )) : ''}
         </ul>
       </form>
       <button className="form-search__reset" type="reset" onClick={() => {
