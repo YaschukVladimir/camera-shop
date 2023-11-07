@@ -59,6 +59,6 @@ export enum SortType {
 }
 
 export enum SortDirection {
-  HighToLow = 'HighToLow',
-  LowToHigh = 'LowToHigh'
+  descending = 'desc',
+  ascending = 'asc'
 }

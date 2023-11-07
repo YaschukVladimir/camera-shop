@@ -1,10 +1,26 @@
+import { useEffect, useState } from 'react';
 import { SortDirection, SortType } from '../../const';
-import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { setSortDirection, setSortType } from '../../store/app-process/app-process';
+import { SetURLSearchParams, useSearchParams } from 'react-router-dom';
 
-function SortForm(): React.JSX.Element {
+type SortFormProps = {
+  setSearchParams: SetURLSearchParams;
+}
 
-  const dispatch = useAppDispatch();
+
+function SortForm({setSearchParams}: SortFormProps): React.JSX.Element {
+
+  const [searchParams] = useSearchParams();
+  const currentPage = searchParams.get('page') || '1';
+  const sortType = searchParams.get('sortType') || '';
+  const sortDirection = searchParams.get('sortDirection') || '';
+  const [params, setParams] = useState({page: currentPage , sortType: sortType, sortDirection: sortDirection});
+
+  useEffect(() => {
+    if (searchParams.size === 0) {
+      setParams({page: '1', sortType: '', sortDirection: ''});
+    }
+    setSearchParams(params);
+  }, [params, searchParams.size]);
 
   return (
     <div className="catalog-sort">
@@ -17,7 +33,11 @@ function SortForm(): React.JSX.Element {
                 type="radio"
                 id="sortPrice"
                 name="sort"
-                onClick={() => dispatch(setSortType(SortType.byPrice))}
+                checked={sortType === 'Price'}
+                onChange={() => {
+                  const updatedParams = {...params, page: searchParams.get('page') || '1', sortType: SortType.byPrice};
+                  setParams(updatedParams);
+                }}
               />
               <label htmlFor="sortPrice">по цене</label>
             </div>
@@ -26,7 +46,11 @@ function SortForm(): React.JSX.Element {
                 type="radio"
                 id="sortPopular"
                 name="sort"
-                onClick={() => dispatch(setSortType(SortType.byPopular))}
+                checked={sortType === 'Popular'}
+                onChange={() => {
+                  const updatedParams = {...params, page:searchParams.get('page') || '1', sortType: SortType.byPopular};
+                  setParams(updatedParams);
+                }}
               />
               <label htmlFor="sortPopular">по популярности</label>
             </div>
@@ -38,7 +62,11 @@ function SortForm(): React.JSX.Element {
                 id="up"
                 name="sort-icon"
                 aria-label="По возрастанию"
-                onClick={() => dispatch(setSortDirection(SortDirection.LowToHigh))}
+                checked={sortDirection === 'asc'}
+                onChange={() => {
+                  const updatedParams = {...params, page:searchParams.get('page') || '1', sortDirection: SortDirection.ascending};
+                  setParams(updatedParams);
+                }}
               />
               <label htmlFor="up">
                 <svg width={16} height={14} aria-hidden="true">
@@ -52,7 +80,11 @@ function SortForm(): React.JSX.Element {
                 id="down"
                 name="sort-icon"
                 aria-label="По убыванию"
-                onClick={() => dispatch(setSortDirection(SortDirection.HighToLow))}
+                checked={sortDirection === 'desc'}
+                onChange={() => {
+                  const updatedParams = {...params, page:searchParams.get('page') || '1', sortDirection: SortDirection.descending};
+                  setParams(updatedParams);
+                }}
               />
               <label htmlFor="down">
                 <svg width={16} height={14} aria-hidden="true">

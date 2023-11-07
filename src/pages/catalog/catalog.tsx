@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+
 import BreadCrumbs from '../../components/bread-crumbs/bread-crumbs';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
@@ -14,32 +14,22 @@ import { useSearchParams } from 'react-router-dom';
 import BuyModal from '../../components/buy-modal/buy-modal';
 import 'swiper/swiper-bundle.css';
 import PromoSlider from '../../components/promo-slider/promo-slider';
-import { getSortDirection, getSortType } from '../../store/app-process/selectors';
 import { sortProducts } from '../../utils/utils';
 
 function Catalog(): React.JSX.Element {
 
   const products = useAppSelector(getProducts);
   const promoProducts = useAppSelector(getPromoProducts);
-  const sortType = useAppSelector(getSortType);
-  const sortDirection = useAppSelector(getSortDirection);
+  const [searchParams, setSearchParams] = useSearchParams({page: '', sortType: '', sortDirection: ''});
+  const currentPage = searchParams.get('page') || '1';
+  const sortType = searchParams.get('sortType') || '';
+  const sortDirection = searchParams.get('sortDirection') || '';
   const sortedProducts = sortProducts(products, sortType, sortDirection);
-
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const lastProductIndex = currentPage * PRODUCTS_PER_PAGE;
+  const lastProductIndex = Number(currentPage) * PRODUCTS_PER_PAGE;
   const firstProductIndex = lastProductIndex - PRODUCTS_PER_PAGE;
   const currentProducts = sortedProducts.slice(firstProductIndex, lastProductIndex);
 
-  const [searchParams, setSearchParams] = useSearchParams({page: '1'});
-  const pageQuery = searchParams.get('page') || '';
-
   const activeProduct = useAppSelector(getActiveModalProduct);
-
-
-  useEffect (() => {
-    setCurrentPage(+pageQuery);
-  }, [pageQuery]);
 
   return (
     <>
@@ -62,14 +52,16 @@ function Catalog(): React.JSX.Element {
                     <FilterForm />
                   </div>
                   <div className="catalog__content">
-                    <SortForm />
+                    <SortForm setSearchParams={setSearchParams} />
                     <div className="cards catalog__cards">
                       {currentProducts.map((product) => <ProductCard key={product.id} product={product}/>)}
                     </div>
                     <CataloguePagination
                       products={products}
                       setSearchParams={setSearchParams}
-                      currentPage={currentPage}
+                      currentPage={Number(currentPage)}
+                      sortType={sortType}
+                      sortDirection={sortDirection}
                     />
                   </div>
                 </div>

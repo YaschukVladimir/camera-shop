@@ -14,42 +14,65 @@ export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({
 
 export const sortProducts = (allProducts: Product[], type: string, direction: string): Product[] => {
   const res = [...allProducts];
-  if (type === SortType.byPrice) {
-    if (direction === SortDirection.HighToLow) {
-      res.sort((a, b) => b.price - a.price);
-      return res;
+
+  const sortByType = (a: Product, b: Product) => {
+    if (type === SortType.byPrice) {
+      return (direction === SortDirection.descending ? b.price - a.price : a.price - b.price);
+    } else if (type === SortType.byPopular) {
+      return (direction === SortDirection.descending ? b.rating - a.rating : a.rating - b.rating);
     }
-    if (direction === SortDirection.LowToHigh) {
-      res.sort((a, b) => a.price - b.price);
-      return res;
-    }
-    if (!direction) {
-      return res;
-    }
-    return res;
-  } else if (type === SortType.byPopular) {
-    if (direction === SortDirection.HighToLow) {
-      res.sort((a, b) => b.rating - a.rating);
-      return res;
-    }
-    if (direction === SortDirection.LowToHigh) {
-      res.sort((a, b) => a.rating - b.rating);
-      return res;
-    }
-    if (!direction) {
-      return res;
-    }
-  } else {
-    if (!type && direction === SortDirection.LowToHigh) {
-      res.sort((a, b) => a.price - b.price);
-      return res;
-    }
-    if (!type && direction === SortDirection.HighToLow) {
-      res.sort((a, b) => b.price - a.price);
-      return res;
-    }
+    return 0;
+  };
+
+  if (type && direction) {
+    res.sort(sortByType);
+  } else if (!type && direction === SortDirection.ascending) {
+    res.sort(sortByType);
+  } else if (!type && direction === SortDirection.descending) {
+    res.sort((a, b) => -sortByType(a, b));
   }
+
   return res;
 };
+
+// export const sortProducts = (allProducts: Product[], type: string, direction: string): Product[] => {
+//   const res = [...allProducts];
+//   if (type === SortType.byPrice) {
+//     if (direction === SortDirection.descending) {
+//       res.sort((a, b) => b.price - a.price);
+//       return res;
+//     }
+//     if (direction === SortDirection.ascending) {
+//       res.sort((a, b) => a.price - b.price);
+//       return res;
+//     }
+//     if (!direction) {
+//       return res;
+//     }
+//     return res;
+//   } else if (type === SortType.byPopular) {
+//     if (direction === SortDirection.descending) {
+//       res.sort((a, b) => b.rating - a.rating);
+//       return res;
+//     }
+//     if (direction === SortDirection.ascending) {
+//       res.sort((a, b) => a.rating - b.rating);
+//       return res;
+//     }
+//     if (!direction) {
+//       return res;
+//     }
+//   } else {
+//     if (!type && direction === SortDirection.ascending) {
+//       res.sort((a, b) => a.price - b.price);
+//       return res;
+//     }
+//     if (!type && direction === SortDirection.descending) {
+//       res.sort((a, b) => b.price - a.price);
+//       return res;
+//     }
+//   }
+//   return res;
+// };
 
 

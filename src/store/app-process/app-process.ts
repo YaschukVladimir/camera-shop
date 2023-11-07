@@ -24,13 +24,7 @@ export const appProcess = createSlice({
     clearError: (state, action: PayloadAction<{message: string | null; delay: number}>) => {
       state.error = action.payload.message;
     },
-    setSortType: (state, action: PayloadAction<string>) => {
-      state.sortType = action.payload;
-    },
-    setSortDirection: (state, action: PayloadAction<string>) => {
-      state.sortDirection = action.payload;
-    }
   }
 });
 
-export const {setError, clearError, setSortDirection, setSortType} = appProcess.actions;
+export const {setError, clearError} = appProcess.actions;

@@ -10,9 +10,11 @@ type PaginationProps = {
   products: Product[];
   setSearchParams: SetURLSearchParams;
   currentPage: number;
+  sortType: string;
+  sortDirection: string;
 }
 
-function CataloguePagination({products, setSearchParams, currentPage}: PaginationProps): React.JSX.Element {
+function CataloguePagination({products, setSearchParams, currentPage, sortType, sortDirection}: PaginationProps): React.JSX.Element {
 
   const pagesQuantity = Array.from({length: Math.ceil(products.length / PRODUCTS_PER_PAGE)}, (_, index) => index + 1);
 
@@ -41,13 +43,15 @@ function CataloguePagination({products, setSearchParams, currentPage}: Paginatio
             setSearchParams={setSearchParams}
             currentPage={currentPage}
             direction={Direction.Prev}
+            sortType={sortType}
+            sortDirection={sortDirection}
           /> : ''}
         {pagesQuantity.length && availablePages.map((index) => (
           <li className="pagination__item" key={index} onClick={() => {
-            setSearchParams({page: index.toString()});
+            setSearchParams({page: index.toString(), sortType: sortType, sortDirection: sortDirection});
           }} style={{cursor: 'pointer'}}
           >
-            <Link to={`/?page=${index}`}
+            <Link to={`/?page=${index}&sortType=${sortType}&sortDirection=${sortDirection}`}
               className={`pagination__link ${currentPage === index ? 'pagination__link--active' : ''}`}
             >
               {index}
@@ -59,6 +63,8 @@ function CataloguePagination({products, setSearchParams, currentPage}: Paginatio
             setSearchParams={setSearchParams}
             currentPage={currentPage}
             direction={Direction.Next}
+            sortType={sortType}
+            sortDirection={sortDirection}
           /> : ''}
       </ul>
     </div>
