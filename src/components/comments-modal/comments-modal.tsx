@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { setReviewModalActive } from '../../store/data-process/data-process';
 import { getIsReviewModalActive } from '../../store/data-process/selectors';
@@ -65,18 +65,7 @@ function ReviewModal ({id}: ReviewModalProps): React.JSX.Element {
 
   useModalCloseEffect(isModalActive, onCloseByKeyPress);
 
-  const nameInputRef = useRef<HTMLInputElement | null>(null);
-
-  useEffect(() => {
-    if (isModalActive && nameInputRef.current) {
-      setTimeout(() => {
-        nameInputRef.current?.focus();
-      }, 300);
-    }
-  }, [isModalActive]);
-
   const modalRef = useFocusTrap({isModalActive});
-
 
   return (
     <div className={`modal ${isModalActive ? 'is-active' : ''}`} ref={modalRef}>
@@ -102,8 +91,8 @@ function ReviewModal ({id}: ReviewModalProps): React.JSX.Element {
                             {...register('rating', {
                               required: true,
                             })}
-                            className="visually-hidden star"
-                            id="star"
+                            className="visually-hidden"
+                            id={`star-${star}`}
                             type="radio"
                             defaultValue={star}
                             onInput={(evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,7 +134,7 @@ function ReviewModal ({id}: ReviewModalProps): React.JSX.Element {
                       placeholder="Введите ваше имя"
                       onInput={(evt:React.ChangeEvent<HTMLInputElement>) => setUserName(evt.target.value)}
                       data-testid="name-input"
-                      ref={nameInputRef}
+                      // ref={nameInputRef}
                     />
                   </label>
                   <p className="custom-input__error">Нужно указать имя</p>

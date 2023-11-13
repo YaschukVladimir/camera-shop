@@ -32,3 +32,10 @@ export const getIsReviewSuccessModalActive = (state: Pick <State, NameSpace.Data
 
 export const getIsActiveProductLoadingStatus = (state: Pick <State, NameSpace.Data>): boolean =>
   state[NameSpace.Data].isActiveProductLoading;
+
+export const getIsProductsRequestError = (state: Pick <State, NameSpace.Data>): boolean =>
+  state[NameSpace.Data].hasProductsRequestError;
+
+export const getIsProductsLoadingStatus = (state: Pick <State, NameSpace.Data>): boolean =>
+  state[NameSpace.Data].isProductsLoading;
+

@@ -30,7 +30,6 @@ describe('Component: CataloguePagination', () => {
     const preparedComponent = withHistory(
       <CataloguePagination
         products={expectedProps.products}
-        setSearchParams={expectedProps.setSearchParams}
         currentPage={expectedProps.currentPage}
       />);
     render(preparedComponent);

@@ -19,7 +19,7 @@ export const navigationList = {
   AboutCompany: 'О комрании'
 };
 
-export const TIMEOUT_SHOW_ERROR = 500;
+export const TIMEOUT_SHOW_ERROR = 5000;
 
 export enum NameSpace {
   Data = 'DATA',
@@ -62,3 +62,21 @@ export enum SortDirection {
   descending = 'desc',
   ascending = 'asc'
 }
+
+export const CAMERA_CATEGORIES = {
+  photocamera: 'Фотоаппарат',
+  videocamera: 'Видеокамера'
+};
+
+export const CAMERA_TYPE = {
+  digital: 'Цифровая',
+  film: 'Плёночная',
+  snapshot: 'Моментальная',
+  collection: 'Коллекционная'
+};
+
+export const CAMERA_LEVEL = {
+  zero: 'Нулевой',
+  nonProffesional: 'Любительский',
+  proffesional: 'Профессиональный'
+};
