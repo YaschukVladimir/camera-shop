@@ -23,7 +23,7 @@ function Catalog(): React.JSX.Element {
   const isProductsRequestError = useAppSelector(getIsProductsRequestError);
   const isProductsLoading = useAppSelector(getIsProductsLoadingStatus);
   const promoProducts = useAppSelector(getPromoProducts);
-  const [searchParams, setSearchParams] = useSearchParams({page: '', sortType: '', sortDirection: ''});
+  const [searchParams] = useSearchParams({page: '', sortType: '', sortDirection: ''});
   const currentPage = searchParams.get('page') || '1';
   const sortType = searchParams.get('sortType') || '';
   const sortDirection = searchParams.get('sortDirection') || '';
@@ -43,8 +43,6 @@ function Catalog(): React.JSX.Element {
   const currentProducts = sortedProducts.slice(firstProductIndex, lastProductIndex);
 
   const activeProduct = useAppSelector(getActiveModalProduct);
-
-  // console.log(sortedProducts)
 
   return (
     <>
@@ -68,7 +66,7 @@ function Catalog(): React.JSX.Element {
                       <FilterForm products={filteredProductsByLevel}/>
                     </div>
                     <div className="catalog__content">
-                      <SortForm setSearchParams={setSearchParams} />
+                      <SortForm />
                       {isProductsLoading ? <p> Loading...</p> :
                         <div className="cards catalog__cards">
                           {currentProducts.length ?

@@ -4,14 +4,10 @@ import { NameSpace } from '../../const';
 
 type AppProcess = {
   error: string | null;
-  sortType: string;
-  sortDirection: string;
 }
 
 const initialState: AppProcess = {
   error: null,
-  sortType: '',
-  sortDirection: '',
 };
 
 export const appProcess = createSlice({
