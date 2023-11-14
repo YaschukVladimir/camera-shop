@@ -45,7 +45,7 @@ function BuyModal({ activeProduct }: BuyModalProps): React.JSX.Element {
   return (
     <div className={`modal ${isModalActive ? 'is-active' : ''}`} role="dialog" aria-modal="true" ref={modalRef}>
       <div className="modal__wrapper" data-testid="modal-wrapper" >
-        <div className="modal__overlay" onClick={() => handleModalClose()} />
+        <div className="modal__overlay" onClick={handleModalClose} />
         <div className="modal__content">
           <p className="title title--h4">Добавить товар в корзину</p>
           <div className="basket-item basket-item--short">

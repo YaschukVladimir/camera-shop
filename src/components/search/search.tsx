@@ -93,10 +93,7 @@ function SearchForm({products}: SearchFormProps): React.JSX.Element {
           )) : ''}
         </ul>
       </form>
-      <button className="form-search__reset" type="reset" onClick={() => {
-        onSearchClose();
-      }}
-      >
+      <button className="form-search__reset" type="reset" onClick={onSearchClose}>
         <svg width={10} height={10} aria-hidden="true">
           <use xlinkHref="#icon-close" />
         </svg>

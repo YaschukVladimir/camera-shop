@@ -80,3 +80,5 @@ export const CAMERA_LEVEL = {
   nonProffesional: 'Любительский',
   proffesional: 'Профессиональный'
 };
+
+export const STARS_QUANTITY = [1, 2, 3, 4, 5];

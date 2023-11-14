@@ -1,5 +1,6 @@
+import { STARS_QUANTITY } from '../../const';
 import { ActiveProduct } from '../../types/types';
-import { STARS_QUANTITY, showRateStars } from '../product-card-stars/product-card-stars';
+import { showRateStars } from '../../utils/utils';
 
 type RatingProps = {
   activeProduct: ActiveProduct;

@@ -70,7 +70,7 @@ function ReviewModal ({id}: ReviewModalProps): React.JSX.Element {
   return (
     <div className={`modal ${isModalActive ? 'is-active' : ''}`} ref={modalRef}>
       <div className="modal__wrapper">
-        <div className="modal__overlay" onClick={() => onModalClose()} />
+        <div className="modal__overlay" onClick={onModalClose} />
         <div className="modal__content">
           <p className="title title--h4">Оставить отзыв</p>
           <div className="form-review">
@@ -134,7 +134,6 @@ function ReviewModal ({id}: ReviewModalProps): React.JSX.Element {
                       placeholder="Введите ваше имя"
                       onInput={(evt:React.ChangeEvent<HTMLInputElement>) => setUserName(evt.target.value)}
                       data-testid="name-input"
-                      // ref={nameInputRef}
                     />
                   </label>
                   <p className="custom-input__error">Нужно указать имя</p>
@@ -214,7 +213,7 @@ function ReviewModal ({id}: ReviewModalProps): React.JSX.Element {
               </button>
             </form>
           </div>
-          <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={() => onModalClose()}>
+          <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={onModalClose}>
             <svg width={10} height={10} aria-hidden="true">
               <use xlinkHref="#icon-close" />
             </svg>

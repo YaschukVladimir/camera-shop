@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { Product, ReviewType } from '../types/types';
 import { Action } from '@reduxjs/toolkit';
 import { SortDirection, SortType } from '../const';
+import StarIcon from '../components/star-icon/star-icon';
 
 export default function getSortedReviewsByDate(allReviews: ReviewType[]): ReviewType[] {
 
@@ -96,4 +97,18 @@ export const filterProductsByLevel = (allProducts: Product[], level: string) => 
   }
 };
 
-
+export function showRateStars (quantity: number[], productRating: number) {
+  const starsToShow = quantity.map((star) => {
+    if (star <= productRating) {
+      return (
+        <StarIcon href="#icon-full-star" key={star} />
+      );
+    }
+    if (star > productRating) {
+      return (
+        <StarIcon href="#icon-star" key={star}/>
+      );
+    }
+  });
+  return starsToShow;
+}

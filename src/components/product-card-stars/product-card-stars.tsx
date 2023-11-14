@@ -1,26 +1,9 @@
-import StarIcon from '../star-icon/star-icon';
+import { STARS_QUANTITY } from '../../const';
+import { showRateStars } from '../../utils/utils';
 
 type ProductCardStarsProps = {
   rating: number;
   reviewCount: number;
-}
-
-export const STARS_QUANTITY = [1, 2, 3, 4, 5];
-
-export function showRateStars (quantity: number[], productRating: number) {
-  const starsToShow = quantity.map((star) => {
-    if (star <= productRating) {
-      return (
-        <StarIcon href="#icon-full-star" key={star} />
-      );
-    }
-    if (star > productRating) {
-      return (
-        <StarIcon href="#icon-star" key={star}/>
-      );
-    }
-  });
-  return starsToShow;
 }
 
 
