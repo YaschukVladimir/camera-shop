@@ -12,7 +12,7 @@ type FormValues = {
   search: string;
 }
 
-const SEARCH_QUERY = 1;
+const SEARCH_QUERY = 3;
 
 function SearchForm({products}: SearchFormProps): React.JSX.Element {
 
