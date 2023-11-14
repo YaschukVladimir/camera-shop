@@ -5,13 +5,15 @@ function CategoryFilter(): React.JSX.Element {
 
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const cameraCategory = searchParams.get('category') || '';
 
-  const handleSetParams = (param: string, value: string) => {
-    if (searchParams.has(param, value)) {
+
+  const handleSetParams = (param: string, value?: string | undefined) => {
+    if (cameraCategory === value) {
       searchParams.delete(param);
       navigate(`?${searchParams.toString()}`);
     } else {
-      searchParams.set(param, value);
+      searchParams.set(param, value as string);
       navigate(`?${searchParams.toString()}`);
     }
   };

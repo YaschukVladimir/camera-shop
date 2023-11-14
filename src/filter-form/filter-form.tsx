@@ -20,6 +20,7 @@ function FilterForm({ products }: FilterFormProps): React.JSX.Element {
     searchParams.delete('_lte');
     searchParams.delete('category');
     searchParams.delete('type');
+    searchParams.delete('level');
     navigate(`?${searchParams.toString()}`);
   };
 

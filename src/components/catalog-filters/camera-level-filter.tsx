@@ -8,7 +8,7 @@ function CameraLevelFilter(): React.JSX.Element {
   const cameraLevel = searchParams.get('level') || '';
 
   const handleSetParams = (param: string, value: string) => {
-    if (searchParams.has(param, value)) {
+    if (cameraLevel === value) {
       searchParams.delete(param);
       navigate(`?${searchParams.toString()}`);
     } else {
