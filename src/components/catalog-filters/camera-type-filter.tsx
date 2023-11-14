@@ -9,7 +9,7 @@ function CameraTypeFilter(): React.JSX.Element {
   const cameraType = searchParams.get('type') || '';
 
   const handleSetParams = (param: string, value: string) => {
-    if (cameraCategory === value) {
+    if (cameraType === value) {
       searchParams.delete(param);
       navigate(`?${searchParams.toString()}`);
     } else {
