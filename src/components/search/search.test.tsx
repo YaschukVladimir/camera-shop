@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import FilterForm from './filter-form';
-import { withHistory } from '../utils/mock-component';
-import { Product } from '../types/types';
+import SearchForm from './search';
+import { Product } from '../../types/types';
+import { withHistory } from '../../utils/mock-component';
 
 const mockProducts: Product[] = [{
   category: 'Видеокамера',
@@ -21,12 +21,13 @@ const mockProducts: Product[] = [{
 }];
 
 
-describe('Component: FilterForm', () => {
+describe('Component: SearchForm', () => {
   it('should render correct', () => {
-    const expectedText = 'Фильтр';
-    const preparedComponent = withHistory(<FilterForm products={mockProducts}/>);
+    const searchDataTestId = 'form-search__container';
+    const preparedComponent = withHistory(<SearchForm products={mockProducts}/>);
 
     render(preparedComponent);
-    expect(screen.getByText(expectedText)).toBeInTheDocument();
+    const searchContainer = screen.getByTestId(searchDataTestId);
+    expect(searchContainer).toBeInTheDocument();
   });
 });

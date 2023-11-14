@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import Header from '../../components/header/header';
 import Review from '../../components/review/review';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { getActiveModalProduct, getActiveProduct, getIsActiveProductLoadingStatus, getReviews, getSimilarProducts } from '../../store/data-process/selectors';
+import { getActiveModalProduct, getActiveProduct, getIsActiveProductLoadingStatus, getProducts, getReviews, getSimilarProducts } from '../../store/data-process/selectors';
 import { fetchActiveModalProduct, fetchActiveProduct, fetchReviews, fetchSimilarProducts } from '../../store/api-actions';
 import { useEffect, useState } from 'react';
 import ProductCharacters from '../../components/product-characters/product-characters';
@@ -33,6 +33,7 @@ function Product(): React.JSX.Element {
     }
   }, [id]);
 
+  const products = useAppSelector(getProducts);
   const activeProduct = useAppSelector(getActiveProduct);
   const activeModalProduct = useAppSelector(getActiveModalProduct);
   const similarProducts = useAppSelector(getSimilarProducts);
@@ -287,7 +288,7 @@ function Product(): React.JSX.Element {
           </svg>
         </div>
         <div className="wrapper">
-          <Header />
+          <Header products={products}/>
           <main>
             <div className="page-content">
               <div className="breadcrumbs">

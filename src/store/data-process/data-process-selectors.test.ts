@@ -51,6 +51,8 @@ describe('data process selectors', () => {
       reviews: [],
       isActiveProductLoading: false,
       activeModalProduct: initialActiveProduct,
+      hasProductsRequestError: false,
+      isProductsLoading: false,
     }
   };
   it('should return products array from state', () => {

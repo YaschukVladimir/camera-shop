@@ -40,6 +40,8 @@ export type DataProcess = {
   reviews: ReviewType[];
   isActiveProductLoading: boolean;
   activeModalProduct: ActiveProduct;
+  hasProductsRequestError: boolean;
+  isProductsLoading: boolean;
 }
 
 export type State = ReturnType<typeof store.getState>;

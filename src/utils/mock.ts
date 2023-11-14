@@ -32,6 +32,8 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
     reviews: [],
     isActiveProductLoading: false,
     activeModalProduct: initialActiveProduct,
+    hasProductsRequestError: false,
+    isProductsLoading: false,
   },
   ...initialState ?? {},
 });

@@ -3,7 +3,7 @@ import axios, {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
 import { StatusCodes } from 'http-status-codes';
 import { processErrorHandle } from './process-error-handle';
 
-type DetaiMessageType = {
+type DetailMessageType = {
   type: string;
   message: string;
 }
@@ -14,7 +14,7 @@ const StatusCodeMapping: Record<number, boolean> = {
   [StatusCodes.NOT_FOUND]: true,
 };
 
-const shouldDisplayError = (response: AxiosResponse) => StatusCodeMapping[response.status];
+const shouldDisplayError = (response: AxiosResponse) => !!StatusCodeMapping[response.status];
 
 const BACKEND_URL = 'https://camera-shop.accelerator.pages.academy/';
 const REQUEST_TIMEOUT = 5000;
@@ -26,7 +26,7 @@ export const createApi = (): AxiosInstance => {
   });
   api.interceptors.response.use(
     (response) => response,
-    (error: AxiosError<DetaiMessageType>) => {
+    (error: AxiosError<DetailMessageType>) => {
       if (error.response && shouldDisplayError(error.response)) {
         const detailMessage = (error.response.data);
         processErrorHandle(detailMessage.message);

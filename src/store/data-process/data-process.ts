@@ -32,6 +32,8 @@ const initialState: DataProcess = {
   reviews: [],
   isActiveProductLoading: false,
   activeModalProduct: initialActiveProduct,
+  hasProductsRequestError: false,
+  isProductsLoading: false,
 };
 
 
@@ -56,6 +58,15 @@ export const dataProcess = createSlice({
     builder
       .addCase(fetchProductsAction.fulfilled, (state, action) => {
         state.products = action.payload;
+        state.hasProductsRequestError = false;
+        state.isProductsLoading = false;
+      })
+      .addCase(fetchProductsAction.pending, (state) => {
+        state.isProductsLoading = true;
+      })
+      .addCase(fetchProductsAction.rejected, (state) => {
+        state.hasProductsRequestError = true;
+        state.isProductsLoading = false;
       })
       .addCase(fetchPromoProductsAction.fulfilled, (state, action) => {
         state.promoProducts = action.payload;

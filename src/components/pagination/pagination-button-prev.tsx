@@ -1,21 +1,27 @@
-import { SetURLSearchParams } from 'react-router-dom';
-
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 type PaginationButtonProps = {
   currentPage: number;
   direction: string;
-  setSearchParams: SetURLSearchParams;
 }
 
 function PaginationButtonPrev(props: PaginationButtonProps): React.JSX.Element {
-  const {setSearchParams, currentPage, direction} = props;
+  const { currentPage, direction} = props;
+  const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+
+  const handleSetParams = (param: string, value: string) => {
+    searchParams.set(param, value);
+    navigate(`?${searchParams.toString()}`);
+  };
 
   const step = (page: number, dir: string) => (dir === 'Далее' ? page + 1 : page - 1).toString();
   return (
     <div style={{cursor: 'pointer', margin: '16px'}}
       className="pagination__link pagination__link--text"
       onClick={() => {
-        setSearchParams({page: step(currentPage, direction)});
+        handleSetParams('page', step(currentPage, direction));
       }}
       data-testid="pagination-button"
     >

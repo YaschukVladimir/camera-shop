@@ -19,7 +19,7 @@ export const appProcess = createSlice({
     },
     clearError: (state, action: PayloadAction<{message: string | null; delay: number}>) => {
       state.error = action.payload.message;
-    }
+    },
   }
 });
 

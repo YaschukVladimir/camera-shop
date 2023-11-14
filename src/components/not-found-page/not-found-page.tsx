@@ -3,16 +3,20 @@ import { AppRoute } from '../../const';
 import Header from '../header/header';
 import Footer from '../footer/footer';
 import Icons from '../icons/icons';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { getProducts } from '../../store/data-process/selectors';
 
 
 function NotFoundPage(): React.JSX.Element {
+
+  const products = useAppSelector(getProducts);
   return (
     <>
       <div className="visually-hidden">
         <Icons />
       </div>
       <div className="wrapper" style={{position: 'relative'}}>
-        <Header />
+        <Header products={products}/>
         <div className="page-content" style={{margin: '0 auto'}}>
           <h1> Page not found</h1>
           <h2> 404 </h2>

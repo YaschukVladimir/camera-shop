@@ -50,6 +50,8 @@ describe('data process slice', () => {
     reviews: [],
     isActiveProductLoading: false,
     activeModalProduct: initialActiveProduct,
+    hasProductsRequestError: false,
+    isProductsLoading: false,
   };
   it('should return initial state with empty action', () => {
     const emptyAction = { type: '' };
