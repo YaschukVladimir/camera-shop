@@ -79,19 +79,25 @@ export const filterProductsByCategory = (allProducts: Product[], category: strin
   }
 };
 
-export const filterProductsByType = (allProducts: Product[], type: string) => {
-  if (type.length) {
-    const filteredProducts = allProducts.filter((product) => product.type === type);
-    return filteredProducts;
+export const filterProductsByTypes = (allProducts: Product[], types: string[]) => {
+  const filteredProducts: Product[][] = [];
+  if(types.length) {
+    types.map((type) => {
+      filteredProducts.push(allProducts.filter((product) => product.type === type));
+    });
+    return (filteredProducts.flat());
   } else {
     return allProducts;
   }
 };
 
-export const filterProductsByLevel = (allProducts: Product[], level: string) => {
-  if (level.length) {
-    const filteredProducts = allProducts.filter((product) => product.level === level);
-    return filteredProducts;
+export const filterProductsByLevels = (allProducts: Product[], levels: string[]) => {
+  const filteredProducts: Product[][] = [];
+  if(levels.length) {
+    levels.map((level) => {
+      filteredProducts.push(allProducts.filter((product) => product.level === level));
+    });
+    return (filteredProducts.flat());
   } else {
     return allProducts;
   }

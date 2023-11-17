@@ -30,9 +30,9 @@ function SearchForm({products}: SearchFormProps): React.JSX.Element {
   };
 
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(evt.currentTarget.value);
     if (evt.currentTarget.value.length >= SEARCH_QUERY) {
       setListOpened(true);
-      setSearchValue(evt.currentTarget.value);
     }
     if (!evt.currentTarget.value.length) {
       setListOpened(false);
@@ -93,7 +93,7 @@ function SearchForm({products}: SearchFormProps): React.JSX.Element {
           )) : ''}
         </ul>
       </form>
-      <button className="form-search__reset" type="reset" onClick={onSearchClose}>
+      <button className="form-search__reset" type="reset" onClick={onSearchClose} style={searchValue.length ? {display: 'flex'} : {display: 'none'}}>
         <svg width={10} height={10} aria-hidden="true">
           <use xlinkHref="#icon-close" />
         </svg>

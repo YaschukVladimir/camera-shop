@@ -16,7 +16,7 @@ export const navigationList = {
   Catalogue: 'Каталог',
   Guarantees: 'Гарантии',
   Delivery: 'Доставка',
-  AboutCompany: 'О комрании'
+  AboutCompany: 'О компании'
 };
 
 export const TIMEOUT_SHOW_ERROR = 5000;

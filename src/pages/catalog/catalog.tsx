@@ -10,12 +10,13 @@ import FilterForm from '../../filter-form/filter-form';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { getActiveModalProduct, getIsProductsLoadingStatus, getIsProductsRequestError, getProducts, getPromoProducts } from '../../store/data-process/selectors';
 import { PRODUCTS_PER_PAGE } from '../../const';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import BuyModal from '../../components/buy-modal/buy-modal';
 import 'swiper/swiper-bundle.css';
 import PromoSlider from '../../components/promo-slider/promo-slider';
-import { filterProductsByCategory, filterProductsByLevel, filterProductsByPrice, filterProductsByType, sortProducts } from '../../utils/utils';
+import { filterProductsByCategory, filterProductsByLevels, filterProductsByPrice, filterProductsByTypes, sortProducts } from '../../utils/utils';
 import ErrorScreen from '../../components/error-screen/error-screen';
+import { useEffect } from 'react';
 
 function Catalog(): React.JSX.Element {
 
@@ -23,6 +24,8 @@ function Catalog(): React.JSX.Element {
   const isProductsRequestError = useAppSelector(getIsProductsRequestError);
   const isProductsLoading = useAppSelector(getIsProductsLoadingStatus);
   const promoProducts = useAppSelector(getPromoProducts);
+  const activeProduct = useAppSelector(getActiveModalProduct);
+
   const [searchParams] = useSearchParams({page: '', sortType: '', sortDirection: ''});
   const currentPage = searchParams.get('page') || '1';
   const sortType = searchParams.get('sortType') || '';
@@ -30,19 +33,37 @@ function Catalog(): React.JSX.Element {
   const _gte = searchParams.get('_gte') || '';
   const _lte = searchParams.get('_lte') || '';
   const category = searchParams.get('category') || '';
-  const cameraType = searchParams.get('type') || '';
-  const cameraLevel = searchParams.get('level') || '';
+  const cameraTypes = searchParams.get('type')?.split(',') || [];
+  const cameraLevels = searchParams.get('level')?.split(',') || [];
 
-  const filteredProducts = filterProductsByPrice(products, Number(_gte), Number(_lte));
-  const filteredProductsByCategory = filterProductsByCategory(filteredProducts, category);
-  const filtererdProductsByType = filterProductsByType(filteredProductsByCategory, cameraType);
-  const filteredProductsByLevel = filterProductsByLevel(filtererdProductsByType, cameraLevel);
-  const sortedProducts = sortProducts(filteredProductsByLevel, sortType, sortDirection);
+  const filteredProductsByCategory = filterProductsByCategory(products, category);
+  const filtereredProductsByType = filterProductsByTypes(filteredProductsByCategory, cameraTypes);
+  const filteredProductsByLevel = filterProductsByLevels(filtereredProductsByType, cameraLevels);
+
+  const filteredProducts = filterProductsByPrice(filteredProductsByLevel, Number(_gte), Number(_lte));
+  const sortedProducts = sortProducts(filteredProducts, sortType, sortDirection);
   const lastProductIndex = Number(currentPage) * PRODUCTS_PER_PAGE;
   const firstProductIndex = lastProductIndex - PRODUCTS_PER_PAGE;
   const currentProducts = sortedProducts.slice(firstProductIndex, lastProductIndex);
 
-  const activeProduct = useAppSelector(getActiveModalProduct);
+  const productMinPrice = filteredProductsByLevel.length && filteredProductsByLevel.reduce((min, product) =>
+    (product.price < min.price ? product : min), products[0]).price;
+  const productMaxPrice = filteredProductsByLevel.length && filteredProductsByLevel.reduce((max, product) =>
+    (product.price > max.price ? product : max), products[0]).price;
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (_gte.length && Number(_gte) < productMinPrice) {
+      searchParams.set('_gte', productMinPrice.toString());
+      navigate(`?${searchParams.toString()}`);
+    }
+    if (_lte.length && Number(_lte) > productMaxPrice) {
+      searchParams.set('_lte', productMaxPrice.toString());
+      navigate(`?${searchParams.toString()}`);
+    }
+    return () => searchParams.delete('_gte');
+  }, [cameraTypes.length, cameraLevels.length, category]);
 
   return (
     <>
@@ -63,7 +84,7 @@ function Catalog(): React.JSX.Element {
                   <h1 className="title title--h2">Каталог фото- и видеотехники</h1>
                   <div className="page-content__columns">
                     <div className="catalog__aside">
-                      <FilterForm products={filteredProductsByLevel}/>
+                      <FilterForm productMinPrice={productMinPrice} productMaxPrice={productMaxPrice}/>
                     </div>
                     <div className="catalog__content">
                       <SortForm />

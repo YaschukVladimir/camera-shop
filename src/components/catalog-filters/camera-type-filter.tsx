@@ -6,15 +6,21 @@ function CameraTypeFilter(): React.JSX.Element {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const cameraCategory = searchParams.get('category') || '';
-  const cameraType = searchParams.get('type') || '';
+  const cameraTypeQuery = searchParams.get('type')?.split(',') || [];
 
   const handleSetParams = (param: string, value: string) => {
-    if (cameraType === value) {
-      searchParams.delete(param);
-      navigate(`?${searchParams.toString()}`);
-    } else {
-      searchParams.set(param, value);
-      navigate(`?${searchParams.toString()}`);
+    if (cameraTypeQuery) {
+      if (cameraTypeQuery?.includes(value)) {
+        searchParams.set(param, cameraTypeQuery.filter((level) => level !== value).toString());
+        navigate(`?${searchParams.toString()}`);
+        if (cameraTypeQuery.length === 1) {
+          searchParams.delete(param);
+          navigate(`?${searchParams.toString()}`);
+        }
+      } else {
+        searchParams.set(param, [...cameraTypeQuery, value].toString());
+        navigate(`?${searchParams.toString()}`);
+      }
     }
   };
 
@@ -26,8 +32,10 @@ function CameraTypeFilter(): React.JSX.Element {
           <input
             type="checkbox"
             name="digital"
-            onChange={() => handleSetParams('type', CAMERA_TYPE.digital)}
-            checked={!!(cameraType.length && cameraType === CAMERA_TYPE.digital)}
+            onChange={() => {
+              handleSetParams('type', CAMERA_TYPE.digital);
+            }}
+            checked={cameraTypeQuery?.includes(CAMERA_TYPE.digital)}
           />
           <span className="custom-checkbox__icon" />
           <span className="custom-checkbox__label">
@@ -41,7 +49,7 @@ function CameraTypeFilter(): React.JSX.Element {
             type="checkbox"
             name="film"
             onChange={() => handleSetParams('type', CAMERA_TYPE.film)}
-            checked={!!(cameraType.length && cameraType === CAMERA_TYPE.film)}
+            checked={cameraTypeQuery?.includes(CAMERA_TYPE.film)}
             disabled={cameraCategory === CAMERA_CATEGORIES.videocamera}
           />
           <span className="custom-checkbox__icon" />
@@ -56,7 +64,7 @@ function CameraTypeFilter(): React.JSX.Element {
             type="checkbox"
             name="snapshot"
             onChange={() => handleSetParams('type', CAMERA_TYPE.snapshot)}
-            checked={!!(cameraType.length && cameraType === CAMERA_TYPE.snapshot)}
+            checked={cameraTypeQuery?.includes(CAMERA_TYPE.snapshot)}
             disabled={cameraCategory === CAMERA_CATEGORIES.videocamera}
           />
           <span className="custom-checkbox__icon" />
@@ -71,7 +79,7 @@ function CameraTypeFilter(): React.JSX.Element {
             type="checkbox"
             name="collection"
             onChange={() => handleSetParams('type', CAMERA_TYPE.collection)}
-            checked={!!(cameraType.length && cameraType === CAMERA_TYPE.collection)}
+            checked={cameraTypeQuery?.includes(CAMERA_TYPE.collection)}
           />
           <span className="custom-checkbox__icon" />
           <span className="custom-checkbox__label">

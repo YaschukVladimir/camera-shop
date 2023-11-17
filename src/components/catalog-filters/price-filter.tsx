@@ -1,18 +1,14 @@
 
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Product } from '../../types/types';
-
 
 type PriceFilterProps = {
-  products: Product[];
+  productMinPrice: number;
+  productMaxPrice: number;
 }
 
-function PriceFilter({ products}: PriceFilterProps): React.JSX.Element {
+function PriceFilter({productMinPrice, productMaxPrice}: PriceFilterProps): React.JSX.Element {
 
   const navigate = useNavigate();
-  const productMinPrice = products.length && products.reduce((min, product) => (product.price < min.price ? product : min), products[0]).price;
-  const productMaxPrice = products.length && products.reduce((max, product) => (product.price > max.price ? product : max), products[0]).price;
-
   const [searchParams] = useSearchParams();
   const handleSetParams = (param: string, value: string) => {
     searchParams.set(param, value);
@@ -24,13 +20,13 @@ function PriceFilter({ products}: PriceFilterProps): React.JSX.Element {
 
   const autoChangePrice = (param: string, value: string) => {
     if (param === '_gte') {
-      if (Number(value) < productMinPrice) {
+      if (Number(value) < productMinPrice && Number(value) !== 0) {
         searchParams.set(param, productMinPrice.toString());
         navigate(`?${searchParams.toString()}`);
       }
     }
     if (param === '_lte') {
-      if (Number(value) > productMaxPrice) {
+      if (Number(value) > productMaxPrice && Number(value) !== 0) {
         searchParams.set(param, productMaxPrice.toString());
         navigate(`?${searchParams.toString()}`);
       }
@@ -40,6 +36,7 @@ function PriceFilter({ products}: PriceFilterProps): React.JSX.Element {
       }
     }
   };
+
   return (
     <fieldset className="catalog-filter__block">
       <legend className="title title--h5">Цена, ₽</legend>
@@ -49,12 +46,17 @@ function PriceFilter({ products}: PriceFilterProps): React.JSX.Element {
             <input style={{padding: '8px 10px'}}
               type="number"
               name="price"
-              placeholder={`от ${productMinPrice}`}
+              placeholder={productMinPrice.toString()}
               value={Number(_gte) ? Number(_gte) : ''}
               onChange={(evt) => {
                 handleSetParams('_gte', evt.currentTarget.value);
               }}
               onBlur={(evt) => autoChangePrice('_gte', evt.currentTarget.value)}
+              onKeyDown={(evt) => {
+                if (evt.key === 'Enter') {
+                  autoChangePrice('_gte', evt.currentTarget.value);
+                }
+              }}
             />
           </label>
         </div>
@@ -63,12 +65,17 @@ function PriceFilter({ products}: PriceFilterProps): React.JSX.Element {
             <input style={{padding: '8px 10px'}}
               type="number"
               name="priceUp"
-              placeholder={`до ${productMaxPrice}`}
+              placeholder={productMaxPrice.toString()}
               value={Number(_lte) ? Number(_lte) : ''}
               onChange={(evt) => {
                 handleSetParams('_lte', evt.currentTarget.value);
               }}
               onBlur={(evt) => autoChangePrice('_lte', evt.currentTarget.value)}
+              onKeyDown={(evt) => {
+                if (evt.key === 'Enter') {
+                  autoChangePrice('_lte', evt.currentTarget.value);
+                }
+              }}
             />
           </label>
         </div>
