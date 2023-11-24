@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { ActiveProduct, DataProcess } from '../../types/types';
 import { fetchActiveModalProduct, fetchActiveProduct, fetchProductsAction, fetchPromoProductsAction, fetchReviews, fetchSimilarProducts, postReview } from '../api-actions';
+import { LocalStorageProducts } from '../../components/buy-modal/buy-modal';
 
 const initialActiveProduct: ActiveProduct = {
   id: 0,
@@ -34,6 +35,8 @@ const initialState: DataProcess = {
   activeModalProduct: initialActiveProduct,
   hasProductsRequestError: false,
   isProductsLoading: false,
+  isSuccesAddToBusketModalActive: false,
+  localStorageProducts: [],
 };
 
 
@@ -52,6 +55,12 @@ export const dataProcess = createSlice({
     },
     clearActiveProduct: (state) => {
       state.activeProduct = initialActiveProduct;
+    },
+    setSuccesAddTobasketModalActive: (state, action: PayloadAction<boolean>) => {
+      state.isSuccesAddToBusketModalActive = action.payload;
+    },
+    setLocalStorageProducts: (state, action: PayloadAction<LocalStorageProducts[]>) => {
+      state.localStorageProducts = action.payload;
     }
   },
   extraReducers(builder) {
@@ -102,4 +111,6 @@ export const {
   setModalActive,
   clearActiveProduct,
   setReviewModalActive,
-  setReviewSuccessModalActive } = dataProcess.actions;
+  setReviewSuccessModalActive,
+  setSuccesAddTobasketModalActive,
+  setLocalStorageProducts } = dataProcess.actions;

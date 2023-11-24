@@ -1,6 +1,7 @@
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { store } from '../store';
 import { createApi } from '../services/api';
+import { LocalStorageProducts } from '../components/buy-modal/buy-modal';
 
 export type Product = {
 id: number;
@@ -42,6 +43,8 @@ export type DataProcess = {
   activeModalProduct: ActiveProduct;
   hasProductsRequestError: boolean;
   isProductsLoading: boolean;
+  isSuccesAddToBusketModalActive: boolean;
+  localStorageProducts: LocalStorageProducts[];
 }
 
 export type State = ReturnType<typeof store.getState>;

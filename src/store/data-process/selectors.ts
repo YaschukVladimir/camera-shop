@@ -1,4 +1,5 @@
 
+import { LocalStorageProducts } from '../../components/buy-modal/buy-modal';
 import { NameSpace } from '../../const';
 import { ActiveProduct, Product, PromoProduct, ReviewType, State } from '../../types/types';
 
@@ -38,4 +39,10 @@ export const getIsProductsRequestError = (state: Pick <State, NameSpace.Data>): 
 
 export const getIsProductsLoadingStatus = (state: Pick <State, NameSpace.Data>): boolean =>
   state[NameSpace.Data].isProductsLoading;
+
+export const getSuccesAddToBasketModalStatus = (state: Pick <State, NameSpace.Data>): boolean =>
+  state[NameSpace.Data].isSuccesAddToBusketModalActive;
+
+export const getLocalStorageProducts = (state: Pick <State, NameSpace.Data>): LocalStorageProducts[] =>
+  state[NameSpace.Data].localStorageProducts;
 

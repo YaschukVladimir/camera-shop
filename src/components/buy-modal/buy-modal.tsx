@@ -1,7 +1,7 @@
 
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { setModalActive } from '../../store/data-process/data-process';
-import { getIsModalActive } from '../../store/data-process/selectors';
+import { setLocalStorageProducts, setModalActive, setSuccesAddTobasketModalActive } from '../../store/data-process/data-process';
+import { getIsModalActive, getLocalStorageProducts } from '../../store/data-process/selectors';
 import { ActiveProduct } from '../../types/types';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { useModalCloseEffect } from '../../hooks/use-modal-close-effect';
@@ -12,10 +12,16 @@ type BuyModalProps = {
   activeProduct: ActiveProduct;
 }
 
+export type LocalStorageProducts = {
+  productId: number;
+  productQuantity: number;
+}
+
 
 function BuyModal({ activeProduct }: BuyModalProps): React.JSX.Element {
   const dispatch = useAppDispatch();
   const isModalActive = useAppSelector(getIsModalActive);
+  const productsfromStore = useAppSelector(getLocalStorageProducts);
   const handleModalClose = () => {
     dispatch(setModalActive(false));
   };
@@ -42,6 +48,45 @@ function BuyModal({ activeProduct }: BuyModalProps): React.JSX.Element {
 
   const modalRef = useFocusTrap({isModalActive});
 
+  // const productsFromStorage = JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[];
+
+  // const [basketProductsIds, setBasketProductsIds] = useState<LocalStorageProducts[]>(productsFromStorage || []);
+
+  const handleAddToBasket = () => {
+    if (productsfromStore.some(({productId}) => productId === activeProduct.id)) {
+      dispatch(setLocalStorageProducts(([...productsfromStore.map((basketProduct) => {
+        if (basketProduct.productId === activeProduct.id) {
+          return {
+            productId: basketProduct.productId,
+            productQuantity: basketProduct.productQuantity + 1,
+          };
+        }
+        return basketProduct;
+      })])));
+    } else {
+      dispatch(setLocalStorageProducts(([...productsfromStore, {productId: activeProduct.id, productQuantity: 1}])));
+    }
+    dispatch(setModalActive(false));
+    dispatch(setSuccesAddTobasketModalActive(true));
+  };
+
+  useEffect(() => {
+    if (productsfromStore.length) {
+      localStorage.setItem('basketProducts', JSON.stringify(productsfromStore));
+    }
+    // dispatch(setLocalStorageProducts(basketProductsIds));
+  }, [productsfromStore]);
+
+  useEffect(() => {
+    if (productsfromStore.length === 0) {
+      const productsFromStorage = JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[];
+      if (productsFromStorage) {
+        dispatch(setLocalStorageProducts(productsFromStorage));
+      }
+    }
+  }, []);
+
+  //  console.log(basketProductsIds, 'ttt')
   return (
     <div className={`modal ${isModalActive ? 'is-active' : ''}`} role="dialog" aria-modal="true" ref={modalRef}>
       <div className="modal__wrapper" data-testid="modal-wrapper" >
@@ -84,6 +129,7 @@ function BuyModal({ activeProduct }: BuyModalProps): React.JSX.Element {
               className="btn btn--purple modal__btn modal__btn--fit-width"
               type="button"
               ref={purpleButtonRef}
+              onClick={handleAddToBasket}
             >
               <svg width={24} height={16} aria-hidden="true">
                 <use xlinkHref="#icon-add-basket" />

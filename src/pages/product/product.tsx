@@ -19,6 +19,7 @@ import ReviewSuccessModal from '../../components/review-success-modal/review-suc
 import NotFoundPage from '../../components/not-found-page/not-found-page';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import Icons from '../../components/icons/icons';
+import AddToBasketModal from '../../components/add-to-basket-modal/add-to-basket-modal';
 
 const REVIEWS_TO_SHOW = 3;
 
@@ -204,6 +205,7 @@ function Product(): React.JSX.Element {
             <ReviewModal id={activeProduct?.id}/>
             <ReviewSuccessModal />
             <BuyModal activeProduct={activeModalProduct}/>
+            <AddToBasketModal />
           </main>
           <button type="button" className="up-btn" onClick={scrollToTop}>
             <svg width={12} height={18} aria-hidden="true">

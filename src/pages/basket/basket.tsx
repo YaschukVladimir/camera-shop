@@ -1,11 +1,55 @@
+import { useEffect } from 'react';
+import BasketProductCard from '../../components/basket-product-card/basket-product-card';
 import Header from '../../components/header/header';
 import Icons from '../../components/icons/icons';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getProducts } from '../../store/data-process/selectors';
+import { getIsProductsLoadingStatus, getLocalStorageProducts, getProducts } from '../../store/data-process/selectors';
+import { Product } from '../../types/types';
+import { LocalStorageProducts } from '../../components/buy-modal/buy-modal';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { setLocalStorageProducts } from '../../store/data-process/data-process';
+import Footer from '../../components/footer/footer';
+
 
 function Basket(): React.JSX.Element {
-
+  const dispatch = useAppDispatch();
   const products = useAppSelector(getProducts);
+  const productsfromStore = useAppSelector(getLocalStorageProducts);
+  const isProductsLoading = useAppSelector(getIsProductsLoadingStatus);
+
+  useEffect(() => {
+    if (productsfromStore.length === 0) {
+      const productsFromStorage = JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[];
+      if (productsFromStorage) {
+        dispatch(setLocalStorageProducts(productsFromStorage));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (productsfromStore.length) {
+      localStorage.setItem('basketProducts', JSON.stringify(productsfromStore));
+    }
+  }, [productsfromStore]);
+
+  const basketProducts: Product[] = [];
+
+  productsfromStore.forEach(({productId}) => {
+    const productInBasket = products.find((product) => product.id === Number(productId));
+    if (productInBasket) {
+      basketProducts.push(productInBasket);
+    }
+  });
+
+  const countTotalProductSum = () => {
+    const productsPrices = productsfromStore.map((product) => {
+      const currentProduct = products.find(({id}) => id === product.productId);
+      const currentProductSum = currentProduct ? currentProduct.price * product.productQuantity : 0;
+      return currentProductSum;
+    });
+    return productsPrices.reduce((prev, next) => prev + next, 0);
+  };
+
   return (
     <>
       <div className="visually-hidden">
@@ -45,159 +89,16 @@ function Basket(): React.JSX.Element {
             <section className="basket">
               <div className="container">
                 <h1 className="title title--h2">Корзина</h1>
-                <ul className="basket__list">
-                  <li className="basket-item">
-                    <div className="basket-item__img">
-                      <picture>
-                        <source
-                          type="image/webp"
-                          srcSet="img/content/orlenok.webp, img/content/orlenok@2x.webp 2x"
+                {isProductsLoading ? <p>...Loading</p> :
+                  <ul className="basket__list">
+                    {basketProducts.map((product) =>
+                      (
+                        <BasketProductCard
+                          product={product}
+                          key={product.id}
                         />
-                        <img
-                          src="img/content/orlenok.jpg"
-                          srcSet="img/content/orlenok@2x.jpg 2x"
-                          width={140}
-                          height={120}
-                          alt="Фотоаппарат «Орлёнок»"
-                        />
-                      </picture>
-                    </div>
-                    <div className="basket-item__description">
-                      <p className="basket-item__title">Орлёнок</p>
-                      <ul className="basket-item__list">
-                        <li className="basket-item__list-item">
-                          <span className="basket-item__article">Артикул:</span>{' '}
-                          <span className="basket-item__number">O78DFGSD832</span>
-                        </li>
-                        <li className="basket-item__list-item">
-                      Плёночная фотокамера
-                        </li>
-                        <li className="basket-item__list-item">
-                      Любительский уровень
-                        </li>
-                      </ul>
-                    </div>
-                    <p className="basket-item__price">
-                      <span className="visually-hidden">Цена:</span>18 970 ₽
-                    </p>
-                    <div className="quantity">
-                      <button
-                        className="btn-icon btn-icon--prev"
-                        aria-label="уменьшить количество товара"
-                      >
-                        <svg width={7} height={12} aria-hidden="true">
-                          <use xlinkHref="#icon-arrow" />
-                        </svg>
-                      </button>
-                      <label className="visually-hidden" htmlFor="counter1" />
-                      <input
-                        type="number"
-                        id="counter1"
-                        defaultValue={2}
-                        min={1}
-                        max={99}
-                        aria-label="количество товара"
-                      />
-                      <button
-                        className="btn-icon btn-icon--next"
-                        aria-label="увеличить количество товара"
-                      >
-                        <svg width={7} height={12} aria-hidden="true">
-                          <use xlinkHref="#icon-arrow" />
-                        </svg>
-                      </button>
-                    </div>
-                    <div className="basket-item__total-price">
-                      <span className="visually-hidden">Общая цена:</span>37 940 ₽
-                    </div>
-                    <button
-                      className="cross-btn"
-                      type="button"
-                      aria-label="Удалить товар"
-                    >
-                      <svg width={10} height={10} aria-hidden="true">
-                        <use xlinkHref="#icon-close" />
-                      </svg>
-                    </button>
-                  </li>
-                  <li className="basket-item">
-                    <div className="basket-item__img">
-                      <picture>
-                        <source
-                          type="image/webp"
-                          srcSet="img/content/das-auge.webp, img/content/das-auge@2x.webp 2x"
-                        />
-                        <img
-                          src="img/content/das-auge.jpg"
-                          srcSet="img/content/das-auge@2x.jpg 2x"
-                          width={140}
-                          height={120}
-                          alt="Ретрокамера «Das Auge IV»"
-                        />
-                      </picture>
-                    </div>
-                    <div className="basket-item__description">
-                      <p className="basket-item__title">
-                    Ретрокамера «Das Auge IV»
-                      </p>
-                      <ul className="basket-item__list">
-                        <li className="basket-item__list-item">
-                          <span className="basket-item__article">Артикул:</span>{' '}
-                          <span className="basket-item__number">DA4IU67AD5</span>
-                        </li>
-                        <li className="basket-item__list-item">
-                      Коллекционная видеокамера
-                        </li>
-                        <li className="basket-item__list-item">
-                      Любительский уровень
-                        </li>
-                      </ul>
-                    </div>
-                    <p className="basket-item__price">
-                      <span className="visually-hidden">Цена:</span>73 450 ₽
-                    </p>
-                    <div className="quantity">
-                      <button
-                        className="btn-icon btn-icon--prev"
-                        disabled
-                        aria-label="уменьшить количество товара"
-                      >
-                        <svg width={7} height={12} aria-hidden="true">
-                          <use xlinkHref="#icon-arrow" />
-                        </svg>
-                      </button>
-                      <label className="visually-hidden" htmlFor="counter2" />
-                      <input
-                        type="number"
-                        id="counter2"
-                        defaultValue={1}
-                        min={1}
-                        max={99}
-                        aria-label="количество товара"
-                      />
-                      <button
-                        className="btn-icon btn-icon--next"
-                        aria-label="увеличить количество товара"
-                      >
-                        <svg width={7} height={12} aria-hidden="true">
-                          <use xlinkHref="#icon-arrow" />
-                        </svg>
-                      </button>
-                    </div>
-                    <div className="basket-item__total-price">
-                      <span className="visually-hidden">Общая цена:</span>73 450 ₽
-                    </div>
-                    <button
-                      className="cross-btn"
-                      type="button"
-                      aria-label="Удалить товар"
-                    >
-                      <svg width={10} height={10} aria-hidden="true">
-                        <use xlinkHref="#icon-close" />
-                      </svg>
-                    </button>
-                  </li>
-                </ul>
+                      ))}
+                  </ul>}
                 <div className="basket__summary">
                   <div className="basket__promo">
                     <p className="title title--h4">
@@ -226,7 +127,7 @@ function Basket(): React.JSX.Element {
                   <div className="basket__summary-order">
                     <p className="basket__summary-item">
                       <span className="basket__summary-text">Всего:</span>
-                      <span className="basket__summary-value">111 390 ₽</span>
+                      <span className="basket__summary-value">{`${countTotalProductSum()} ₽`}</span>
                     </p>
                     <p className="basket__summary-item">
                       <span className="basket__summary-text">Скидка:</span>
@@ -242,7 +143,11 @@ function Basket(): React.JSX.Element {
                     111 390 ₽
                       </span>
                     </p>
-                    <button className="btn btn--purple" type="submit">
+                    <button className="btn btn--purple" type="submit" onClick={() => {
+                      // localStorage.clear();
+                      dispatch(setLocalStorageProducts([]));
+                    }}
+                    >
                   Оформить заказ
                     </button>
                   </div>
@@ -251,121 +156,7 @@ function Basket(): React.JSX.Element {
             </section>
           </div>
         </main>
-        <footer className="footer">
-          <div className="container">
-            <div className="footer__info">
-              <a
-                className="footer__logo"
-                href="index.html"
-                aria-label="Переход на главную"
-              >
-                <svg width={100} height={36} aria-hidden="true">
-                  <use xlinkHref="#icon-logo-mono" />
-                </svg>
-              </a>
-              <p className="footer__description">
-            Интернет-магазин фото- и видеотехники
-              </p>
-              <ul className="social">
-                <li className="social__item">
-                  <a
-                    className="link"
-                    href="#"
-                    aria-label="Переход на страницу вконтатке"
-                  >
-                    <svg width={20} height={20} aria-hidden="true">
-                      <use xlinkHref="#icon-vk" />
-                    </svg>
-                  </a>
-                </li>
-                <li className="social__item">
-                  <a
-                    className="link"
-                    href="#"
-                    aria-label="Переход на страницу pinterest"
-                  >
-                    <svg width={20} height={20} aria-hidden="true">
-                      <use xlinkHref="#icon-pinterest" />
-                    </svg>
-                  </a>
-                </li>
-                <li className="social__item">
-                  <a
-                    className="link"
-                    href="#"
-                    aria-label="Переход на страницу reddit"
-                  >
-                    <svg width={20} height={20} aria-hidden="true">
-                      <use xlinkHref="#icon-reddit" />
-                    </svg>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <ul className="footer__nav">
-              <li className="footer__nav-item">
-                <p className="footer__title">Навигация</p>
-                <ul className="footer__list">
-                  <li className="footer__item">
-                    <a className="link" href="#">
-                  Каталог
-                    </a>
-                  </li>
-                  <li className="footer__item">
-                    <a className="link" href="#">
-                  Гарантии
-                    </a>
-                  </li>
-                  <li className="footer__item">
-                    <a className="link" href="#">
-                  Доставка
-                    </a>
-                  </li>
-                  <li className="footer__item">
-                    <a className="link" href="#">
-                  О компании
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li className="footer__nav-item">
-                <p className="footer__title">Ресурсы</p>
-                <ul className="footer__list">
-                  <li className="footer__item">
-                    <a className="link" href="#">
-                  Курсы операторов
-                    </a>
-                  </li>
-                  <li className="footer__item">
-                    <a className="link" href="#">
-                  Блог
-                    </a>
-                  </li>
-                  <li className="footer__item">
-                    <a className="link" href="#">
-                  Сообщество
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li className="footer__nav-item">
-                <p className="footer__title">Поддержка</p>
-                <ul className="footer__list">
-                  <li className="footer__item">
-                    <a className="link" href="#">
-                  FAQ
-                    </a>
-                  </li>
-                  <li className="footer__item">
-                    <a className="link" href="#">
-                  Задать вопрос
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );

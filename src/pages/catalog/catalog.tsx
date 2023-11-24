@@ -8,18 +8,21 @@ import ProductCard from '../../components/product-card/product-card';
 import SortForm from '../../components/sort-form/sort-form';
 import FilterForm from '../../filter-form/filter-form';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getActiveModalProduct, getIsProductsLoadingStatus, getIsProductsRequestError, getProducts, getPromoProducts } from '../../store/data-process/selectors';
+import { getActiveModalProduct, getIsProductsLoadingStatus, getIsProductsRequestError, getLocalStorageProducts, getProducts, getPromoProducts } from '../../store/data-process/selectors';
 import { PRODUCTS_PER_PAGE } from '../../const';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import BuyModal from '../../components/buy-modal/buy-modal';
+import BuyModal, { LocalStorageProducts } from '../../components/buy-modal/buy-modal';
 import 'swiper/swiper-bundle.css';
 import PromoSlider from '../../components/promo-slider/promo-slider';
 import { filterProductsByCategory, filterProductsByLevels, filterProductsByPrice, filterProductsByTypes, sortProducts } from '../../utils/utils';
 import ErrorScreen from '../../components/error-screen/error-screen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import AddToBasketModal from '../../components/add-to-basket-modal/add-to-basket-modal';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { setLocalStorageProducts } from '../../store/data-process/data-process';
 
 function Catalog(): React.JSX.Element {
-
+  const dispatch = useAppDispatch();
   const products = useAppSelector(getProducts);
   const isProductsRequestError = useAppSelector(getIsProductsRequestError);
   const isProductsLoading = useAppSelector(getIsProductsLoadingStatus);
@@ -51,6 +54,17 @@ function Catalog(): React.JSX.Element {
   const productMaxPrice = filteredProductsByLevel.length && filteredProductsByLevel.reduce((max, product) =>
     (product.price > max.price ? product : max), products[0]).price;
 
+  const [productsFromStorage] = useState(JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[]);
+  // useEffect(() => {
+  //   setProductsFromStorage(JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[]);
+  // }, []);
+
+  useEffect(() => {
+    dispatch(setLocalStorageProducts(JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[]));
+  }, [productsFromStorage]);
+
+  const localStorageProducts = useAppSelector(getLocalStorageProducts);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -64,6 +78,8 @@ function Catalog(): React.JSX.Element {
     }
     return () => searchParams.delete('_gte');
   }, [cameraTypes.length, cameraLevels.length, category]);
+
+  // localStorage.clear();
 
   return (
     <>
@@ -91,7 +107,8 @@ function Catalog(): React.JSX.Element {
                       {isProductsLoading ? <p> Loading...</p> :
                         <div className="cards catalog__cards">
                           {currentProducts.length ?
-                            currentProducts.map((product) => <ProductCard key={product.id} product={product} />) :
+                            currentProducts.map((product) =>
+                              <ProductCard key={product.id} product={product} productsFromStorage={localStorageProducts}/>) :
                             <p> По заданным параметрам, товаров не найдено</p>}
                         </div>}
                       <CataloguePagination
@@ -104,6 +121,7 @@ function Catalog(): React.JSX.Element {
               </section>
             </div>
             <BuyModal activeProduct={activeProduct}/>
+            <AddToBasketModal />
           </main>}
         <Footer />
       </div>

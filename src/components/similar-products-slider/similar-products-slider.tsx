@@ -8,6 +8,9 @@ import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
 import SlidePrevButton from '../slider-buttons/slider-prev-button';
 import SlideNextButton from '../slider-buttons/slider-next-button';
 import { useState } from 'react';
+// import { LocalStorageProducts } from '../buy-modal/buy-modal';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { getLocalStorageProducts } from '../../store/data-process/selectors';
 
 
 type SimilarProductsSlider = {
@@ -21,6 +24,8 @@ function SimilarProductsSlider({ similarProducts }: SimilarProductsSlider): Reac
 
   const [isEnd, setIsEnd] = useState(false);
   const [isStart, setIsStart] = useState(true);
+  // const productsFromStorage = JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[];
+  const productsFromStore = useAppSelector(getLocalStorageProducts);
 
   return (
     <div className="product-similar__slider" data-testid="slider-container">
@@ -53,7 +58,7 @@ function SimilarProductsSlider({ similarProducts }: SimilarProductsSlider): Reac
           <SlidePrevButton isStart={isStart} />
           {similarProducts.map((product) => (
             <SwiperSlide key={product.id}>
-              <ProductCard product={product} />
+              <ProductCard product={product} productsFromStorage={productsFromStore}/>
             </SwiperSlide>))}
           <SlideNextButton isEnd={isEnd} />
         </Swiper>
