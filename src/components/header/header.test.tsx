@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { withHistory } from '../../utils/mock-component';
+import { withHistory, withStore } from '../../utils/mock-component';
 import Header from './header';
+import { makeFakeStore } from '../../utils/mock';
 
 
 it('renders Header component with a search form', () => {
@@ -22,8 +23,9 @@ it('renders Header component with a search form', () => {
     vendorCode: 'YU7RT5GH76'
   }];
   const preparedComponent = withHistory(<Header products={products}/>);
+  const { withStoreComponent } = withStore(preparedComponent, makeFakeStore());
   render(
-    preparedComponent
+    withStoreComponent
   );
   const searchFormcontainer = screen.getByTestId(formSearchContainerTestId);
   expect(searchFormcontainer).toBeInTheDocument();

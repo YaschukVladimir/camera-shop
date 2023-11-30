@@ -1,6 +1,16 @@
-import { NameSpace } from '../../const';
+import { NameSpace, PromocodeStatus } from '../../const';
 import { ActiveProduct, Product } from '../../types/types';
-import { getIsActiveProductLoadingStatus, getIsModalActive, getProducts, getPromoProducts, getReviews, getSimilarProducts } from './selectors';
+import {
+  getIsActiveProductLoadingStatus,
+  getIsModalActive,
+  getLocalStorageProducts,
+  getPostProductsStatus,
+  getProducts,
+  getPromoCodeStatus,
+  getPromoProducts,
+  getReviews,
+  getSimilarProducts
+} from './selectors';
 
 
 const mockProducts: Product[] = [{
@@ -53,6 +63,14 @@ describe('data process selectors', () => {
       activeModalProduct: initialActiveProduct,
       hasProductsRequestError: false,
       isProductsLoading: false,
+      isSuccesAddToBusketModalActive: false,
+      localStorageProducts: [],
+      promoDiscount: 0,
+      isDeleteFromBasketModalActive: false,
+      productToDeleteFromBasket: {},
+      isPromocodeValid: PromocodeStatus.UNKNOWN,
+      isPostBasketProductsSuccess: false,
+      isOrderModalActive: false,
     }
   };
   it('should return products array from state', () => {
@@ -84,5 +102,20 @@ describe('data process selectors', () => {
     const { isActiveProductLoading } = state[NameSpace.Data];
     const result = getIsActiveProductLoadingStatus(state);
     expect(result).toEqual(isActiveProductLoading);
+  });
+  it('should return post basket products status from state', () => {
+    const { isPostBasketProductsSuccess } = state[NameSpace.Data];
+    const result = getPostProductsStatus(state);
+    expect(result).toEqual(isPostBasketProductsSuccess);
+  });
+  it('should return promocode status from state', () => {
+    const { isPromocodeValid } = state[NameSpace.Data];
+    const result = getPromoCodeStatus(state);
+    expect(result).toEqual(isPromocodeValid);
+  });
+  it('should return localStorageProducts from state', () => {
+    const { localStorageProducts } = state[NameSpace.Data];
+    const result = getLocalStorageProducts(state);
+    expect(result).toEqual(localStorageProducts);
   });
 });

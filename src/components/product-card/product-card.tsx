@@ -1,13 +1,17 @@
+
 import { Product } from '../../types/types';
 import BuyButton from '../buttons/buy-button';
 import DetailsButton from '../buttons/details-button';
+import { LocalStorageProducts } from '../buy-modal/buy-modal';
+import InBasketButton from '../in-basket-button/in-basket-button';
 import ProductCardStars from '../product-card-stars/product-card-stars';
 
 type ProductCardProps = {
   product: Product;
+  productsFromStorage: LocalStorageProducts[];
 }
 
-function ProductCard({product}: ProductCardProps):React.JSX.Element {
+function ProductCard({product, productsFromStorage}: ProductCardProps):React.JSX.Element {
 
   return (
     <div className="product-card is-active">
@@ -36,7 +40,7 @@ function ProductCard({product}: ProductCardProps):React.JSX.Element {
         </p>
       </div>
       <div className="product-card__buttons">
-        <BuyButton id={product.id}/>
+        {productsFromStorage.some(({productId}) => productId === product.id) ? <InBasketButton /> : <BuyButton id={product.id}/>}
         <DetailsButton id={product.id} buttonClass='btn--transparent'/>
       </div>
     </div>

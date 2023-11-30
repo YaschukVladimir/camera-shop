@@ -22,7 +22,7 @@ describe('Component: ProductCard', () => {
       previewImgWebp2x: 'gggg',
     };
     const expectedText = 'Цена:';
-    const preparedComponent = withHistory(<ProductCard product={mockProduct} />);
+    const preparedComponent = withHistory(<ProductCard product={mockProduct} productsFromStorage={[{productId: 1, productQuantity: 1}]}/>);
     const { withStoreComponent } = withStore(preparedComponent, {});
     render(withStoreComponent);
 

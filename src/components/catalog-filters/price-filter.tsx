@@ -24,6 +24,10 @@ function PriceFilter({productMinPrice, productMaxPrice}: PriceFilterProps): Reac
         searchParams.set(param, productMinPrice.toString());
         navigate(`?${searchParams.toString()}`);
       }
+      if (_lte?.length && Number(_gte) > Number(_lte)) {
+        searchParams.set(param, _lte);
+        navigate(`?${searchParams.toString()}`);
+      }
     }
     if (param === '_lte') {
       if (Number(value) > productMaxPrice && Number(value) !== 0) {
