@@ -93,7 +93,7 @@ function DeleteFromBasketModal(): React.JSX.Element {
               Продолжить покупки
             </button>
           </div>
-          <button className="cross-btn" type="button" aria-label="Закрыть попап">
+          <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={onModalClose}>
             <svg width={10} height={10} aria-hidden="true">
               <use xlinkHref="#icon-close" />
             </svg>
