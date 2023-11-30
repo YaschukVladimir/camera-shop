@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { NameSpace } from '../../const';
-import { ActiveProduct, DataProcess } from '../../types/types';
-import { fetchActiveModalProduct, fetchActiveProduct, fetchProductsAction, fetchPromoProductsAction, fetchReviews, fetchSimilarProducts, postReview } from '../api-actions';
+import { NameSpace, PromocodeStatus } from '../../const';
+import { ActiveProduct, DataProcess, Product } from '../../types/types';
+import { fetchActiveModalProduct, fetchActiveProduct, fetchProductsAction, fetchPromoProductsAction, fetchReviews, fetchSimilarProducts, postBasketProducts, postPromoCode, postReview } from '../api-actions';
 import { LocalStorageProducts } from '../../components/buy-modal/buy-modal';
 
 const initialActiveProduct: ActiveProduct = {
@@ -37,6 +37,12 @@ const initialState: DataProcess = {
   isProductsLoading: false,
   isSuccesAddToBusketModalActive: false,
   localStorageProducts: [],
+  promoDiscount: 0,
+  isDeleteFromBasketModalActive: false,
+  productToDeleteFromBasket: {},
+  isPromocodeValid: PromocodeStatus.UNKNOWN,
+  isPostBasketProductsSuccess: false,
+  isOrderModalActive: false,
 };
 
 
@@ -61,6 +67,18 @@ export const dataProcess = createSlice({
     },
     setLocalStorageProducts: (state, action: PayloadAction<LocalStorageProducts[]>) => {
       state.localStorageProducts = action.payload;
+    },
+    setDeleteBasketModalActive: (state, action: PayloadAction<boolean>) => {
+      state.isDeleteFromBasketModalActive = action.payload;
+    },
+    setProductToDeleteFromBasket: (state, action: PayloadAction<Product>) => {
+      state.productToDeleteFromBasket = action.payload;
+    },
+    setIsPostBasketProductsSuccess: (state, action: PayloadAction<boolean>) => {
+      state.isPostBasketProductsSuccess = action.payload;
+    },
+    setIsOrderModalActive: (state, action: PayloadAction<boolean>) => {
+      state.isOrderModalActive = action.payload;
     }
   },
   extraReducers(builder) {
@@ -103,6 +121,25 @@ export const dataProcess = createSlice({
         state.reviews.push(action.payload);
         state.isReviewModalActive = false;
         state.isReviewSuccessModalActive = true;
+      })
+      .addCase(postPromoCode.fulfilled, (state, action) => {
+        state.promoDiscount = action.payload;
+        state.isPromocodeValid = PromocodeStatus.VALID;
+      })
+      .addCase(postPromoCode.rejected, (state) => {
+        state.isPromocodeValid = PromocodeStatus.INVALID;
+        state.promoDiscount = 0;
+      })
+      .addCase(postBasketProducts.fulfilled, (state) => {
+        state.localStorageProducts = [];
+        state.isPostBasketProductsSuccess = true;
+        state.isOrderModalActive = true;
+        state.isPromocodeValid = PromocodeStatus.UNKNOWN;
+      })
+      .addCase(postBasketProducts.rejected, (state) => {
+        state.isOrderModalActive = true;
+        state.isPromocodeValid = PromocodeStatus.UNKNOWN;
+        state.isPostBasketProductsSuccess = false;
       });
   }
 });
@@ -113,4 +150,7 @@ export const {
   setReviewModalActive,
   setReviewSuccessModalActive,
   setSuccesAddTobasketModalActive,
-  setLocalStorageProducts } = dataProcess.actions;
+  setLocalStorageProducts,
+  setDeleteBasketModalActive,
+  setProductToDeleteFromBasket,
+  setIsOrderModalActive } = dataProcess.actions;

@@ -48,10 +48,6 @@ function BuyModal({ activeProduct }: BuyModalProps): React.JSX.Element {
 
   const modalRef = useFocusTrap({isModalActive});
 
-  // const productsFromStorage = JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[];
-
-  // const [basketProductsIds, setBasketProductsIds] = useState<LocalStorageProducts[]>(productsFromStorage || []);
-
   const handleAddToBasket = () => {
     if (productsfromStore.some(({productId}) => productId === activeProduct.id)) {
       dispatch(setLocalStorageProducts(([...productsfromStore.map((basketProduct) => {
@@ -74,7 +70,6 @@ function BuyModal({ activeProduct }: BuyModalProps): React.JSX.Element {
     if (productsfromStore.length) {
       localStorage.setItem('basketProducts', JSON.stringify(productsfromStore));
     }
-    // dispatch(setLocalStorageProducts(basketProductsIds));
   }, [productsfromStore]);
 
   useEffect(() => {
@@ -86,7 +81,6 @@ function BuyModal({ activeProduct }: BuyModalProps): React.JSX.Element {
     }
   }, []);
 
-  //  console.log(basketProductsIds, 'ttt')
   return (
     <div className={`modal ${isModalActive ? 'is-active' : ''}`} role="dialog" aria-modal="true" ref={modalRef}>
       <div className="modal__wrapper" data-testid="modal-wrapper" >

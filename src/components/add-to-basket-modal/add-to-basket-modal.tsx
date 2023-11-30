@@ -27,7 +27,7 @@ function AddToBasketModal(): React.JSX.Element {
 
   return (
     <div className={`modal ${isModalActive ? 'is-active' : ''} modal--narrow`} ref={modalRef}>
-      <div className="modal__wrapper">
+      <div className="modal__wrapper" data-testid="modal-wrapper">
         <div className="modal__overlay" onClick={handleModalClose}/>
         <div className="modal__content">
           <p className="title title--h4">Товар успешно добавлен в корзину</p>

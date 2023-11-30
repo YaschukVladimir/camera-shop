@@ -1,5 +1,6 @@
+import { PromocodeStatus } from '../../const';
 import { ActiveProduct, Product, ReviewType } from '../../types/types';
-import { fetchActiveProduct, fetchProductsAction, fetchPromoProductsAction, fetchReviews, fetchSimilarProducts, postReview } from '../api-actions';
+import { fetchActiveProduct, fetchProductsAction, fetchPromoProductsAction, fetchReviews, fetchSimilarProducts, postBasketProducts, postPromoCode, postReview } from '../api-actions';
 import { dataProcess, setModalActive, setReviewModalActive, setReviewSuccessModalActive } from './data-process';
 
 
@@ -52,6 +53,14 @@ describe('data process slice', () => {
     activeModalProduct: initialActiveProduct,
     hasProductsRequestError: false,
     isProductsLoading: false,
+    isSuccesAddToBusketModalActive: false,
+    localStorageProducts: [],
+    promoDiscount: 0,
+    isDeleteFromBasketModalActive: false,
+    productToDeleteFromBasket: {},
+    isPromocodeValid: PromocodeStatus.UNKNOWN,
+    isPostBasketProductsSuccess: false,
+    isOrderModalActive: false,
   };
   it('should return initial state with empty action', () => {
     const emptyAction = { type: '' };
@@ -151,5 +160,13 @@ describe('data process slice', () => {
     };
     const result = dataProcess.reducer(expectedState, postReview.fulfilled(mockReview, '', mockPostReview));
     expect(result.reviews).toEqual([mockReview]);
+  });
+  it('should post promocode with postPromoCode.fulfilled', () => {
+    const result = dataProcess.reducer(expectedState, postPromoCode.fulfilled(35, '', {coupon: 'camera-555'}));
+    expect(result.promoDiscount).toEqual(35);
+  });
+  it('should post basketProducts with postBasketProducts.fulfilled', () => {
+    const result = dataProcess.reducer(expectedState, postBasketProducts.fulfilled(201, '', {camerasIds: [1], coupon: 'camera-555'}));
+    expect(result.isPostBasketProductsSuccess).toBe(true);
   });
 });

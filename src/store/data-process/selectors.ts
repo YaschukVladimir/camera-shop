@@ -1,6 +1,6 @@
 
 import { LocalStorageProducts } from '../../components/buy-modal/buy-modal';
-import { NameSpace } from '../../const';
+import { NameSpace, PromocodeStatus } from '../../const';
 import { ActiveProduct, Product, PromoProduct, ReviewType, State } from '../../types/types';
 
 
@@ -46,3 +46,20 @@ export const getSuccesAddToBasketModalStatus = (state: Pick <State, NameSpace.Da
 export const getLocalStorageProducts = (state: Pick <State, NameSpace.Data>): LocalStorageProducts[] =>
   state[NameSpace.Data].localStorageProducts;
 
+export const getPromoDiscount = (state: Pick <State, NameSpace.Data>): number =>
+  state[NameSpace.Data].promoDiscount;
+
+export const getDeleteFromBasketModalStatus = (state: Pick <State, NameSpace.Data>): boolean =>
+  state[NameSpace.Data].isDeleteFromBasketModalActive;
+
+export const getProductToDelete = (state: Pick <State, NameSpace.Data>): Product | Record<string, never> =>
+  state[NameSpace.Data].productToDeleteFromBasket;
+
+export const getPromoCodeStatus = (state: Pick <State, NameSpace.Data>): PromocodeStatus =>
+  state[NameSpace.Data].isPromocodeValid;
+
+export const getPostProductsStatus = (state: Pick <State, NameSpace.Data>): boolean =>
+  state[NameSpace.Data].isPostBasketProductsSuccess;
+
+export const getIsOrderModalActive = (state: Pick <State, NameSpace.Data>): boolean =>
+  state[NameSpace.Data].isOrderModalActive;

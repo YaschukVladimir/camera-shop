@@ -55,12 +55,11 @@ function Catalog(): React.JSX.Element {
     (product.price > max.price ? product : max), products[0]).price;
 
   const [productsFromStorage] = useState(JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[]);
-  // useEffect(() => {
-  //   setProductsFromStorage(JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[]);
-  // }, []);
 
   useEffect(() => {
-    dispatch(setLocalStorageProducts(JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[]));
+    if (productsFromStorage !== null) {
+      dispatch(setLocalStorageProducts(JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[]));
+    }
   }, [productsFromStorage]);
 
   const localStorageProducts = useAppSelector(getLocalStorageProducts);
@@ -78,8 +77,6 @@ function Catalog(): React.JSX.Element {
     }
     return () => searchParams.delete('_gte');
   }, [cameraTypes.length, cameraLevels.length, category]);
-
-  // localStorage.clear();
 
   return (
     <>

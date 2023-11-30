@@ -1,3 +1,4 @@
+import { PromocodeStatus } from '../const';
 import { ActiveProduct, State } from '../types/types';
 
 const initialActiveProduct: ActiveProduct = {
@@ -34,6 +35,14 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
     activeModalProduct: initialActiveProduct,
     hasProductsRequestError: false,
     isProductsLoading: false,
+    isSuccesAddToBusketModalActive: false,
+    localStorageProducts: [],
+    promoDiscount: 0,
+    isDeleteFromBasketModalActive: false,
+    productToDeleteFromBasket: {},
+    isPromocodeValid: PromocodeStatus.UNKNOWN,
+    isPostBasketProductsSuccess: false,
+    isOrderModalActive: false,
   },
   ...initialState ?? {},
 });

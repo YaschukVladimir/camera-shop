@@ -2,6 +2,7 @@ import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { store } from '../store';
 import { createApi } from '../services/api';
 import { LocalStorageProducts } from '../components/buy-modal/buy-modal';
+import { PromocodeStatus } from '../const';
 
 export type Product = {
 id: number;
@@ -45,6 +46,12 @@ export type DataProcess = {
   isProductsLoading: boolean;
   isSuccesAddToBusketModalActive: boolean;
   localStorageProducts: LocalStorageProducts[];
+  promoDiscount: number;
+  isDeleteFromBasketModalActive: boolean;
+  productToDeleteFromBasket: Product | Record<string, never>;
+  isPromocodeValid: PromocodeStatus;
+  isPostBasketProductsSuccess: boolean;
+  isOrderModalActive: boolean;
 }
 
 export type State = ReturnType<typeof store.getState>;
@@ -93,3 +100,7 @@ export interface Stars {
 }
 
 export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createApi>, Action>;
+
+export type Coupon = {
+  coupon: string;
+}

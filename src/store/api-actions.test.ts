@@ -3,7 +3,7 @@ import { AppThunkDispatch, Product, ReviewType, State } from '../types/types';
 import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { fetchActiveProduct, fetchProductsAction, fetchPromoProductsAction, fetchReviews, fetchSimilarProducts, postReview } from './api-actions';
+import { fetchActiveProduct, fetchProductsAction, fetchPromoProductsAction, fetchReviews, fetchSimilarProducts, postBasketProducts, postPromoCode, postReview } from './api-actions';
 import { Action } from '@reduxjs/toolkit';
 import { ApiRoutes } from '../const';
 import { extractActionsTypes } from '../utils/utils';
@@ -75,9 +75,6 @@ const mockPostReview = {
 
 
 describe('async actions', () => {
-
-  // console.log(createApi, 'ddd');
-  // const axios = createApi();
   const axios = api;
   const mockAxiosAdapter = new MockAdapter(axios);
   const middleware = [thunk.withExtraArgument(axios)];
@@ -184,6 +181,36 @@ describe('async actions', () => {
         postReview.fulfilled.type,
       ]);
       expect(postReviewFulfilled.payload).toEqual(mockReviews[0]);
+    });
+  });
+  describe('postPromocode', () => {
+    it('should dispatch "postPromoCode.fulfilled" when server response 200', async () => {
+      mockAxiosAdapter.onPost(ApiRoutes.PostCoupon).reply(200, {coupon: 'camera-555'});
+      await store.dispatch(postPromoCode({coupon: 'camera-555'}));
+      const emmitedActions = store.getActions();
+      const extractedActionsTypes = extractActionsTypes(emmitedActions);
+      const postPromoCodeFulfilled = emmitedActions.at(1) as ReturnType<typeof postPromoCode.fulfilled>;
+
+      expect(extractedActionsTypes).toEqual([
+        postPromoCode.pending.type,
+        postPromoCode.fulfilled.type,
+      ]);
+      expect(postPromoCodeFulfilled.payload).toEqual({coupon: 'camera-555'});
+    });
+  });
+  describe('postBasketProducts', () => {
+    it('should dispatch "postBasketProducts.fulfilled" when server response 200', async () => {
+      mockAxiosAdapter.onPost(ApiRoutes.PostBasketProducts).reply(200, {camerasIds: [1], coupon: 'camera-555'});
+      await store.dispatch(postBasketProducts({camerasIds: [1], coupon: 'camera-555'}));
+      const emmitedActions = store.getActions();
+      const extractedActionsTypes = extractActionsTypes(emmitedActions);
+      const postBasketProductsFulfilled = emmitedActions.at(1) as ReturnType<typeof postPromoCode.fulfilled>;
+
+      expect(extractedActionsTypes).toEqual([
+        postBasketProducts.pending.type,
+        postBasketProducts.fulfilled.type,
+      ]);
+      expect(postBasketProductsFulfilled.payload).toEqual({camerasIds: [1], coupon: 'camera-555'});
     });
   });
 });

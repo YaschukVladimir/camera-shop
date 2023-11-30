@@ -30,7 +30,9 @@ export enum ApiRoutes {
   GetProducts = '/cameras',
   GetPromo = '/promo',
   GetActiveProduct = '/cameras/',
-  PostReview = '/reviews'
+  PostReview = '/reviews',
+  PostCoupon = '/coupons',
+  PostBasketProducts = '/orders'
 }
 
 export const PRODUCTS_PER_PAGE = 9;
@@ -42,6 +44,11 @@ export enum Direction {
 }
 
 export const PAGES_TO_SHOW = 3;
+
+export type PostedProducts = {
+  camerasIds: number[];
+  coupon: string | null;
+}
 
 export const STARS_TITLES: Stars = {
   5: 'perfect',
@@ -56,6 +63,12 @@ export const starsValues: number[] = [5, 4, 3, 2, 1];
 export enum SortType {
   byPrice = 'Price',
   byPopular = 'Popular'
+}
+
+export enum PromocodeStatus {
+  UNKNOWN = 'unknown',
+  VALID = 'valid',
+  INVALID = 'invalid'
 }
 
 export enum SortDirection {
@@ -82,3 +95,5 @@ export const CAMERA_LEVEL = {
 };
 
 export const STARS_QUANTITY = [1, 2, 3, 4, 5];
+
+export const PROMO_CODES = ['camera-333', 'camera-444', 'camera-555'];

@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { ActiveProduct, AppDispatch, FormData, Product, PromoProduct, ReviewType, State } from '../types/types';
-import { ApiRoutes } from '../const';
+import { ActiveProduct, AppDispatch, Coupon, FormData, Product, PromoProduct, ReviewType, State } from '../types/types';
+import { ApiRoutes, PostedProducts } from '../const';
 
 
 export const fetchProductsAction = createAsyncThunk<Product[], undefined, {
@@ -76,6 +76,28 @@ export const postReview = createAsyncThunk<ReviewType, FormData, {
 }>('products/postreview',
   async(formData, {extra: api}) => {
     const {data} = await api.post<ReviewType>(ApiRoutes.PostReview, formData);
+    return data;
+  }
+);
+
+export const postPromoCode = createAsyncThunk<number, Coupon, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>('products/postPromoCode',
+  async(coupon, {extra: api}) => {
+    const {data} = await api.post<number>(ApiRoutes.PostCoupon, coupon);
+    return data;
+  }
+);
+
+export const postBasketProducts = createAsyncThunk<number, PostedProducts, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>('products/postBasketProducts',
+  async(postedProducts, {extra: api}) => {
+    const {data} = await api.post<number>(ApiRoutes.PostBasketProducts, postedProducts);
     return data;
   }
 );

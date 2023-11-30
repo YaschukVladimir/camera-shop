@@ -1,36 +1,19 @@
 import { useRef } from 'react';
 import { CAMERA_CATEGORIES } from '../../const';
 import { Product } from '../../types/types';
-// import { LocalStorageProducts } from '../buy-modal/buy-modal';
-import { setLocalStorageProducts } from '../../store/data-process/data-process';
+import { setDeleteBasketModalActive, setLocalStorageProducts, setProductToDeleteFromBasket } from '../../store/data-process/data-process';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { getLocalStorageProducts } from '../../store/data-process/selectors';
 
-// type CountIds = {
-//   string?: number;
-// }
-
 type BasketProductProps = {
   product: Product;
-  // countIds: CountIds;
-  // basketProductsIds: LocalStorageProducts[];
-  // setBasketProductsIds: Dispatch<SetStateAction<LocalStorageProducts[]>>;
 }
 
 function BasketProductCard({ product }: BasketProductProps): React.JSX.Element {
   const dispatch = useAppDispatch();
   const productsfromStore = useAppSelector(getLocalStorageProducts);
-  // const productCount = countIds[product.id.toString()]
-  const productCount = productsfromStore.find(({productId}) => product.id === productId)?.productQuantity;
-
-  // const handleQuantityChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-  //   console.log(evt.currentTarget.value, 'input value');
-  //   setBasketProductsIds(basketProductsIds.filter((id) => id !== product.id));
-  //   for (let i = 0; i <= Number(evt.currentTarget.value); ++i) {
-  //     setBasketProductsIds([...basketProductsIds, product.id]);
-  //   }
-  // };
+  const productCount = productsfromStore.find(({ productId }) => product.id === productId)?.productQuantity;
   const inputRef = useRef<HTMLInputElement>(null);
 
   const getCurrentInputValue = (): number => {
@@ -53,18 +36,10 @@ function BasketProductCard({ product }: BasketProductProps): React.JSX.Element {
   };
 
   const handleQuantityChange = () => {
-    // console.log(evt.currentTarget.value, 'input value');
-    // const updatedProducts = basketProductsIds.map((basketProduct) => {
-    //   if (basketProduct.productId === product.id) {
-    //     basketProduct.productQuantity = Number(evt.currentTarget.value);
-    //   }
-    //   return basketProduct;
-    // });
-    const currentProduct = productsfromStore.find(({productId}) => productId === product.id);
+    const currentProduct = productsfromStore.find(({ productId }) => productId === product.id);
     if (currentProduct) {
       dispatch(setLocalStorageProducts(([...productsfromStore.map((basketProduct) => {
         if (basketProduct.productId === product.id) {
-          // basketProduct.productQuantity = getCurrentInputValue();
           return {
             productId: basketProduct.productId,
             productQuantity: getCurrentInputValue(),
@@ -75,11 +50,6 @@ function BasketProductCard({ product }: BasketProductProps): React.JSX.Element {
     }
   };
 
-  const handleDeleteProduct = () => {
-    dispatch(setLocalStorageProducts([...productsfromStore.filter(({productId}) => productId !== product.id)]));
-  };
-
-  // console.log(inputRef.current, 'bbb')
   return (
     <li className="basket-item">
       <div className="basket-item__img">
@@ -124,7 +94,7 @@ function BasketProductCard({ product }: BasketProductProps): React.JSX.Element {
             setCurrentInputValue(getCurrentInputValue() - 1);
             handleQuantityChange();
           }}
-          disabled={getCurrentInputValue() === 1}
+          disabled={productCount ? productCount <= 1 : false}
         >
           <svg width={7} height={12} aria-hidden="true">
             <use xlinkHref="#icon-arrow" />
@@ -147,7 +117,6 @@ function BasketProductCard({ product }: BasketProductProps): React.JSX.Element {
         <button
           className="btn-icon btn-icon--next"
           aria-label="увеличить количество товара"
-          // onClick={() => setBasketProductsIds([...basketProductsIds, {productId: product.id, productQuantity: productCount as number + 1}])}
           onClick={() => {
             setCurrentInputValue(getCurrentInputValue() + 1);
             handleQuantityChange();
@@ -166,7 +135,10 @@ function BasketProductCard({ product }: BasketProductProps): React.JSX.Element {
         className="cross-btn"
         type="button"
         aria-label="Удалить товар"
-        onClick={handleDeleteProduct}
+        onClick={() => {
+          dispatch(setProductToDeleteFromBasket(product));
+          dispatch(setDeleteBasketModalActive(true));
+        }}
       >
         <svg width={10} height={10} aria-hidden="true">
           <use xlinkHref="#icon-close" />

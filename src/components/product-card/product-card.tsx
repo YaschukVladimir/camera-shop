@@ -1,4 +1,4 @@
-// import { useEffect, useState } from 'react';
+
 import { Product } from '../../types/types';
 import BuyButton from '../buttons/buy-button';
 import DetailsButton from '../buttons/details-button';
