@@ -14,12 +14,14 @@ function DeleteFromBasketModal(): React.JSX.Element {
   const productsfromStore = useAppSelector(getLocalStorageProducts);
   const isModalActive = useAppSelector(getDeleteFromBasketModalStatus);
   const productToDelete = useAppSelector(getProductToDelete);
+  const navigate = useNavigate();
 
   const handleDeleteProduct = () => {
     dispatch(setLocalStorageProducts([...productsfromStore.filter(({productId}) => productId !== productToDelete.id)]));
     localStorage.setItem('basketProducts',
       JSON.stringify([...productsfromStore.filter(({productId}) => productId !== productToDelete.id)]));
     dispatch(setProductToDeleteFromBasket({} as Product));
+    dispatch(setDeleteBasketModalActive(false));
   };
 
   const onModalClose = () => {
@@ -32,11 +34,14 @@ function DeleteFromBasketModal(): React.JSX.Element {
     }
   };
 
+  const closeAndNavigate = (route: string) => {
+    onModalClose();
+    navigate(route);
+  };
+
   useModalCloseEffect(isModalActive, onCloseByKeyPress);
 
   const modalRef = useFocusTrap({isModalActive});
-  const navigate = useNavigate();
-
 
   return (
     <div className={`modal ${isModalActive ? 'is-active' : ''}`} ref={modalRef}>
@@ -78,17 +83,13 @@ function DeleteFromBasketModal(): React.JSX.Element {
               type="button"
               onClick={() => {
                 handleDeleteProduct();
-                onModalClose();
               } }
             >
               Удалить
             </button>
             <button
               className="btn btn--transparent modal__btn modal__btn--half-width"
-              onClick={() => {
-                navigate(AppRoute.Catalogue);
-                onModalClose();
-              }}
+              onClick={() => closeAndNavigate(AppRoute.Catalogue)}
             >
               Продолжить покупки
             </button>

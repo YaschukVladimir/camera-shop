@@ -35,7 +35,7 @@ function BasketProductCard({ product }: BasketProductProps): React.JSX.Element {
     }
   };
 
-  const handleQuantityChange = () => {
+  const changeProductQuantity = () => {
     const currentProduct = productsfromStore.find(({ productId }) => productId === product.id);
     if (currentProduct) {
       dispatch(setLocalStorageProducts(([...productsfromStore.map((basketProduct) => {
@@ -48,6 +48,11 @@ function BasketProductCard({ product }: BasketProductProps): React.JSX.Element {
         return basketProduct;
       })])));
     }
+  };
+
+  const handleQuantityChange = (value: number) => {
+    setCurrentInputValue(value);
+    changeProductQuantity();
   };
 
   return (
@@ -91,8 +96,7 @@ function BasketProductCard({ product }: BasketProductProps): React.JSX.Element {
           className="btn-icon btn-icon--prev"
           aria-label="уменьшить количество товара"
           onClick={() => {
-            setCurrentInputValue(getCurrentInputValue() - 1);
-            handleQuantityChange();
+            handleQuantityChange(getCurrentInputValue() - 1);
           }}
           disabled={productCount ? productCount <= 1 : false}
         >
@@ -110,16 +114,14 @@ function BasketProductCard({ product }: BasketProductProps): React.JSX.Element {
           max="99"
           aria-label="количество товара"
           onChange={(evt) => {
-            setCurrentInputValue(Number(evt.currentTarget.value));
-            handleQuantityChange();
+            handleQuantityChange(Number(evt.currentTarget.value));
           }}
         />
         <button
           className="btn-icon btn-icon--next"
           aria-label="увеличить количество товара"
           onClick={() => {
-            setCurrentInputValue(getCurrentInputValue() + 1);
-            handleQuantityChange();
+            handleQuantityChange(getCurrentInputValue() + 1);
           }}
           disabled={getCurrentInputValue() >= 99}
         >

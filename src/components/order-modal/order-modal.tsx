@@ -13,13 +13,14 @@ function OrderModal(): React.JSX.Element {
   const isModalActive = useAppSelector(getIsOrderModalActive);
   const navigate = useNavigate();
 
-  const onModalClose = () => {
+  const onModalClose = (route: string) => {
     dispatch(setIsOrderModalActive(false));
+    navigate(route);
   };
 
   const onCloseByKeyPress = (key: string) => {
     if (key === 'Escape') {
-      onModalClose();
+      onModalClose('');
     }
   };
 
@@ -30,7 +31,7 @@ function OrderModal(): React.JSX.Element {
   return (
     <div className={`modal ${isModalActive ? 'is-active' : ''}`} ref={modalRef}>
       <div className="modal__wrapper" data-testid="modal-wrapper">
-        <div className="modal__overlay" onClick={onModalClose}/>
+        <div className="modal__overlay" onClick={() => onModalClose('')}/>
         {orderStatus ?
           <div className="modal__content">
             <p className="title title--h4">Спасибо за покупку</p>
@@ -42,14 +43,14 @@ function OrderModal(): React.JSX.Element {
                 className="btn btn--purple modal__btn modal__btn--fit-width"
                 type="button"
                 onClick={() => {
-                  navigate(AppRoute.Catalogue);
-                  onModalClose();
+                  // navigate(AppRoute.Catalogue);
+                  onModalClose(AppRoute.Catalogue);
                 }}
               >
               Вернуться к покупкам
               </button>
             </div>
-            <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={onModalClose}>
+            <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={() => onModalClose('')}>
               <svg width={10} height={10} aria-hidden="true">
                 <use xlinkHref="#icon-close" />
               </svg>
@@ -65,12 +66,12 @@ function OrderModal(): React.JSX.Element {
               <button
                 className="btn btn--purple modal__btn modal__btn--fit-width"
                 type="button"
-                onClick={onModalClose}
+                onClick={() => onModalClose('')}
               >
               Вернуться к покупкам
               </button>
             </div>
-            <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={onModalClose}>
+            <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={() => onModalClose('')}>
               <svg width={10} height={10} aria-hidden="true">
                 <use xlinkHref="#icon-close" />
               </svg>
