@@ -114,7 +114,16 @@ function BasketProductCard({ product }: BasketProductProps): React.JSX.Element {
           max="99"
           aria-label="количество товара"
           onChange={(evt) => {
-            handleQuantityChange(Number(evt.currentTarget.value));
+            handleQuantityChange(Math.floor(Number(evt.currentTarget.value)));
+          }}
+          onKeyDown={(evt) => {
+            if (!(evt.key.match(/^\d+$/) || evt.key === 'Backspace')) {
+              evt.preventDefault();
+              evt.stopPropagation();
+            }
+          }}
+          onFocus={() => {
+            inputRef.current?.select();
           }}
         />
         <button

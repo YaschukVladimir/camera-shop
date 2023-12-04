@@ -79,6 +79,9 @@ export const dataProcess = createSlice({
     },
     setIsOrderModalActive: (state, action: PayloadAction<boolean>) => {
       state.isOrderModalActive = action.payload;
+    },
+    setPromoDiscount: (state, action: PayloadAction<number>) => {
+      state.promoDiscount = action.payload;
     }
   },
   extraReducers(builder) {
@@ -153,4 +156,5 @@ export const {
   setLocalStorageProducts,
   setDeleteBasketModalActive,
   setProductToDeleteFromBasket,
-  setIsOrderModalActive } = dataProcess.actions;
+  setIsOrderModalActive,
+  setPromoDiscount } = dataProcess.actions;

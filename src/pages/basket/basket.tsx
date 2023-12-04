@@ -7,7 +7,7 @@ import { getIsProductsLoadingStatus, getLocalStorageProducts, getProducts, getPr
 import { Coupon, Product } from '../../types/types';
 import { LocalStorageProducts } from '../../components/buy-modal/buy-modal';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { setLocalStorageProducts } from '../../store/data-process/data-process';
+import { setLocalStorageProducts, setPromoDiscount } from '../../store/data-process/data-process';
 import Footer from '../../components/footer/footer';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { postBasketProducts, postPromoCode } from '../../store/api-actions';
@@ -104,6 +104,7 @@ function Basket(): React.JSX.Element {
 
   const handleOrderSubmit = () => {
     dispatch(postBasketProducts(createOrderData()));
+    dispatch(setPromoDiscount(0));
     localStorage.setItem('basketProducts', JSON.stringify([]));
   };
 
