@@ -12,13 +12,13 @@ function ReviewSuccessModal(): React.JSX.Element {
   const dispatch = useAppDispatch();
   const isModalActive = useAppSelector(getIsReviewSuccessModalActive);
 
-  const onCloseByKeyPress = (key: string) => {
+  const handleCloseByKeyPress = (key: string) => {
     if (key === 'Escape') {
       dispatch(setReviewSuccessModalActive(false));
     }
   };
 
-  useModalCloseEffect(isModalActive, onCloseByKeyPress);
+  useModalCloseEffect(isModalActive, handleCloseByKeyPress);
 
   const modalRef = useFocusTrap({isModalActive});
 

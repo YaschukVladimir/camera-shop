@@ -28,7 +28,7 @@ function DeleteFromBasketModal(): React.JSX.Element {
     dispatch(setDeleteBasketModalActive(false));
   };
 
-  const onCloseByKeyPress = (key: string) => {
+  const handleCloseByKeyPress = (key: string) => {
     if (key === 'Escape') {
       onModalClose();
     }
@@ -39,7 +39,7 @@ function DeleteFromBasketModal(): React.JSX.Element {
     navigate(route);
   };
 
-  useModalCloseEffect(isModalActive, onCloseByKeyPress);
+  useModalCloseEffect(isModalActive, handleCloseByKeyPress);
 
   const modalRef = useFocusTrap({isModalActive});
 

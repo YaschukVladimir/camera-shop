@@ -52,7 +52,7 @@ function Product(): React.JSX.Element {
     setRewiesToShow(sortedReviews.slice(0, 3));
   }, [reviews]);
 
-  const showMoreReviewsHandler = () => {
+  const handleShowMoreReviews = () => {
     setRewiesToShow(sortedReviews.slice(0, lastReviewIndex));
   };
 
@@ -194,7 +194,7 @@ function Product(): React.JSX.Element {
                     </ul>
                     <div className="review-block__buttons">
                       {reviews.length && reviewsToShow.length < reviews.length ?
-                        <button className="btn btn--purple" type="button" onClick={showMoreReviewsHandler}>
+                        <button className="btn btn--purple" type="button" onClick={handleShowMoreReviews}>
                         Показать больше отзывов
                         </button> : ''}
                     </div>

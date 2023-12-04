@@ -26,13 +26,13 @@ function BuyModal({ activeProduct }: BuyModalProps): React.JSX.Element {
     dispatch(setModalActive(false));
   };
 
-  const onCloseByKeyPress = (key: string) => {
+  const handleCloseByKeyPress = (key: string) => {
     if (key === 'Escape') {
       handleModalClose();
     }
   };
 
-  useModalCloseEffect(isModalActive, onCloseByKeyPress);
+  useModalCloseEffect(isModalActive, handleCloseByKeyPress);
 
   const purpleButtonRef = useRef<HTMLButtonElement | null>(null);
 

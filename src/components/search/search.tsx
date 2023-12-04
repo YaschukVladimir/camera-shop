@@ -23,7 +23,7 @@ function SearchForm({products}: SearchFormProps): React.JSX.Element {
   const { register, reset } = useForm<FormValues>({mode: 'onChange'});
   const listRef = useSearchItemsFocus({listOpened});
 
-  const onSearchClose = () => {
+  const handleSearchClose = () => {
     setSearchValue('');
     setListOpened(false);
     reset();
@@ -43,7 +43,7 @@ function SearchForm({products}: SearchFormProps): React.JSX.Element {
 
   const handleKeyPress = (evt: KeyboardEvent) => {
     if (evt.key === 'Escape') {
-      onSearchClose();
+      handleSearchClose();
     }
     if (evt.key === 'ArrowDown') {
       const firstChild = listRef.current?.childNodes[0] as HTMLElement;
@@ -81,7 +81,7 @@ function SearchForm({products}: SearchFormProps): React.JSX.Element {
               onClick={() => navigate(`/product/${product.id}/description`)}
               onKeyDown={(evt) => {
                 if (evt.key === 'Escape') {
-                  onSearchClose();
+                  handleSearchClose();
                 }
                 if (evt.key === 'Enter') {
                   navigate(`/product/${product.id}/description`);
@@ -93,7 +93,7 @@ function SearchForm({products}: SearchFormProps): React.JSX.Element {
           )) : ''}
         </ul>
       </form>
-      <button className="form-search__reset" type="reset" onClick={onSearchClose} style={searchValue.length ? {display: 'flex'} : {display: 'none'}}>
+      <button className="form-search__reset" type="reset" onClick={handleSearchClose} style={searchValue.length ? {display: 'flex'} : {display: 'none'}}>
         <svg width={10} height={10} aria-hidden="true">
           <use xlinkHref="#icon-close" />
         </svg>

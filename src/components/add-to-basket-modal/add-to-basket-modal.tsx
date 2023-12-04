@@ -15,7 +15,7 @@ function AddToBasketModal(): React.JSX.Element {
   const handleModalClose = () => {
     dispatch(setSuccesAddTobasketModalActive(false));
   };
-  const onCloseByKeyPress = (key: string) => {
+  const handleCloseByKeyPress = (key: string) => {
     if (key === 'Escape') {
       handleModalClose();
     }
@@ -23,7 +23,7 @@ function AddToBasketModal(): React.JSX.Element {
   const navigate = useNavigate();
   const modalRef = useFocusTrap({isModalActive});
 
-  useModalCloseEffect(isModalActive, onCloseByKeyPress);
+  useModalCloseEffect(isModalActive, handleCloseByKeyPress);
 
   return (
     <div className={`modal ${isModalActive ? 'is-active' : ''} modal--narrow`} ref={modalRef}>

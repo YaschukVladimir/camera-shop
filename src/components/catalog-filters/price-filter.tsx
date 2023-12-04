@@ -18,7 +18,7 @@ function PriceFilter({productMinPrice, productMaxPrice}: PriceFilterProps): Reac
   const _gte = searchParams.get('_gte');
   const _lte = searchParams.get('_lte');
 
-  const autoChangePrice = (param: string, value: string) => {
+  const handleChangePrice = (param: string, value: string) => {
     if (param === '_gte') {
       if (Number(value) < productMinPrice && Number(value) !== 0) {
         searchParams.set(param, productMinPrice.toString());
@@ -55,10 +55,10 @@ function PriceFilter({productMinPrice, productMaxPrice}: PriceFilterProps): Reac
               onChange={(evt) => {
                 handleSetParams('_gte', evt.currentTarget.value);
               }}
-              onBlur={(evt) => autoChangePrice('_gte', evt.currentTarget.value)}
+              onBlur={(evt) => handleChangePrice('_gte', evt.currentTarget.value)}
               onKeyDown={(evt) => {
                 if (evt.key === 'Enter') {
-                  autoChangePrice('_gte', evt.currentTarget.value);
+                  handleChangePrice('_gte', evt.currentTarget.value);
                 }
               }}
             />
@@ -74,10 +74,10 @@ function PriceFilter({productMinPrice, productMaxPrice}: PriceFilterProps): Reac
               onChange={(evt) => {
                 handleSetParams('_lte', evt.currentTarget.value);
               }}
-              onBlur={(evt) => autoChangePrice('_lte', evt.currentTarget.value)}
+              onBlur={(evt) => handleChangePrice('_lte', evt.currentTarget.value)}
               onKeyDown={(evt) => {
                 if (evt.key === 'Enter') {
-                  autoChangePrice('_lte', evt.currentTarget.value);
+                  handleChangePrice('_lte', evt.currentTarget.value);
                 }
               }}
             />

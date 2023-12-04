@@ -57,13 +57,13 @@ function ReviewModal ({id}: ReviewModalProps): React.JSX.Element {
     reset();
   };
 
-  const onCloseByKeyPress = (key: string) => {
+  const handleCloseByKeyPress = (key: string) => {
     if (key === 'Escape') {
       onModalClose();
     }
   };
 
-  useModalCloseEffect(isModalActive, onCloseByKeyPress);
+  useModalCloseEffect(isModalActive, handleCloseByKeyPress);
 
   const modalRef = useFocusTrap({isModalActive});
 

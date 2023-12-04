@@ -18,13 +18,13 @@ function OrderModal(): React.JSX.Element {
     navigate(route);
   };
 
-  const onCloseByKeyPress = (key: string) => {
+  const handleCloseByKeyPress = (key: string) => {
     if (key === 'Escape') {
       onModalClose('');
     }
   };
 
-  useModalCloseEffect(isModalActive, onCloseByKeyPress);
+  useModalCloseEffect(isModalActive, handleCloseByKeyPress);
 
   const modalRef = useFocusTrap({isModalActive});
 
