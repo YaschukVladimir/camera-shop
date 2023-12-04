@@ -10,15 +10,17 @@ type BuyButtonProps = {
 function BuyButton({ id }: BuyButtonProps): React.JSX.Element {
 
   const dispatch = useAppDispatch();
+  const handleBuyButtonClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    dispatch(fetchActiveModalProduct(id));
+    dispatch(setModalActive(true));
+    evt.currentTarget.blur();
+  };
+
   return (
     <button
       className="btn btn--purple product-card__btn"
       type="button"
-      onClick={(evt) => {
-        dispatch(fetchActiveModalProduct(id));
-        dispatch(setModalActive(true));
-        evt.currentTarget.blur();
-      }}
+      onClick={handleBuyButtonClick}
     >
       Купить
     </button>

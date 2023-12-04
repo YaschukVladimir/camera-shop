@@ -87,7 +87,7 @@ export type ReviewType = {
 }
 
 export type FormData = {
-  'cameraId': number | undefined;
+  'cameraId'?: number;
   'userName': string;
   'advantage': string;
   'disadvantage': string;

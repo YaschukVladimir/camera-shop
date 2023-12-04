@@ -102,6 +102,11 @@ function Basket(): React.JSX.Element {
     }
   };
 
+  const handleOrderSubmit = () => {
+    dispatch(postBasketProducts(createOrderData()));
+    localStorage.setItem('basketProducts', JSON.stringify([]));
+  };
+
   return (
     <>
       <div className="visually-hidden">
@@ -199,10 +204,7 @@ function Basket(): React.JSX.Element {
                       </span>
                     </p>
                     <button className="btn btn--purple" type="submit"
-                      onClick={() => {
-                        dispatch(postBasketProducts(createOrderData()));
-                        localStorage.setItem('basketProducts', JSON.stringify([]));
-                      }}
+                      onClick={handleOrderSubmit}
                       disabled={!basketProducts.length}
                     >
                   Оформить заказ

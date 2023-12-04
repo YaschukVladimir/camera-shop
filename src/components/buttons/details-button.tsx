@@ -16,10 +16,7 @@ function DetailsButton({ id, buttonClass }: DetailsButtonProps): React.JSX.Eleme
   };
 
   return (
-    <Link className={`btn ${buttonClass}`} to={`/product/${id}/description`} onClick={() => {
-      handleDetailsClick();
-    }}
-    >
+    <Link className={`btn ${buttonClass}`} to={`/product/${id}/description`} onClick={handleDetailsClick}>
       Подробнее
     </Link>
   );
