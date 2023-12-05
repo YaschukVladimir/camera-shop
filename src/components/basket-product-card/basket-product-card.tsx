@@ -25,7 +25,7 @@ function BasketProductCard({ product }: BasketProductProps): React.JSX.Element {
 
   const setCurrentInputValue = (productQuantity: number) => {
     if (inputRef.current) {
-      if (productQuantity < 1) {
+      if (productQuantity < 0) {
         inputRef.current.value = `${1}`;
       } else if (productQuantity > 99) {
         inputRef.current.value = `${99}`;
@@ -98,7 +98,7 @@ function BasketProductCard({ product }: BasketProductProps): React.JSX.Element {
           onClick={() => {
             handleQuantityChange(getCurrentInputValue() - 1);
           }}
-          disabled={productCount ? productCount <= 1 : false}
+          disabled={!!(productCount === 0 || (productCount as number) <= 1)}
         >
           <svg width={7} height={12} aria-hidden="true">
             <use xlinkHref="#icon-arrow" />
@@ -110,11 +110,14 @@ function BasketProductCard({ product }: BasketProductProps): React.JSX.Element {
           type="number"
           id="counter1"
           value={productCount}
-          min="1"
-          max="99"
           aria-label="количество товара"
           onChange={(evt) => {
             handleQuantityChange(Math.floor(Number(evt.currentTarget.value)));
+          }}
+          onBlur={() => {
+            if (inputRef.current?.value === '0') {
+              handleQuantityChange(1);
+            }
           }}
           onKeyDown={(evt) => {
             if (!(evt.key.match(/^\d+$/) || evt.key === 'Backspace')) {
