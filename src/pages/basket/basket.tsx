@@ -27,6 +27,8 @@ function Basket(): React.JSX.Element {
   const { register, handleSubmit, reset } = useForm<Coupon>({mode: 'onSubmit'});
   const promoCodeStatus = useAppSelector(getPromoCodeStatus);
 
+  const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(false);
+
   const onSubmitForm: SubmitHandler<Coupon> = (data: Coupon) => {
     dispatch(postPromoCode(data));
     reset();
@@ -114,6 +116,20 @@ function Basket(): React.JSX.Element {
       dispatch(setIsPromoCodeValid(PromocodeStatus.UNKNOWN));
     }
   }, [productsfromStore]);
+
+  const setOneProductQuantity = () => {
+    if ((JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[]).length) {
+      return (JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[])[0].productQuantity;
+    }
+  };
+
+  const oneProductQuantity = setOneProductQuantity();
+  useEffect(() => {
+    setIsSubmitButtonDisabled(!basketProducts.length ||
+      (JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[]).length === 1 &&
+      (JSON.parse(localStorage.getItem('basketProducts') as string) as LocalStorageProducts[])[0].productQuantity === 0);
+  }
+  , [basketProducts, oneProductQuantity]);
 
   return (
     <>
@@ -213,7 +229,7 @@ function Basket(): React.JSX.Element {
                     </p>
                     <button className="btn btn--purple" type="submit"
                       onClick={handleOrderSubmit}
-                      disabled={!basketProducts.length}
+                      disabled={isSubmitButtonDisabled}
                     >
                   Оформить заказ
                     </button>
