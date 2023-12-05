@@ -7,7 +7,7 @@ import { getIsProductsLoadingStatus, getLocalStorageProducts, getProducts, getPr
 import { Coupon, Product } from '../../types/types';
 import { LocalStorageProducts } from '../../components/buy-modal/buy-modal';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { setLocalStorageProducts, setPromoDiscount } from '../../store/data-process/data-process';
+import { setIsPromoCodeValid, setLocalStorageProducts, setPromoDiscount } from '../../store/data-process/data-process';
 import Footer from '../../components/footer/footer';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { postBasketProducts, postPromoCode } from '../../store/api-actions';
@@ -107,6 +107,13 @@ function Basket(): React.JSX.Element {
     dispatch(setPromoDiscount(0));
     localStorage.setItem('basketProducts', JSON.stringify([]));
   };
+
+  useEffect (() => {
+    if (productsfromStore.length === 0) {
+      dispatch(setPromoDiscount(0));
+      dispatch(setIsPromoCodeValid(PromocodeStatus.UNKNOWN));
+    }
+  }, [productsfromStore]);
 
   return (
     <>

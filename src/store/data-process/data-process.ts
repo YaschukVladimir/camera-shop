@@ -82,6 +82,9 @@ export const dataProcess = createSlice({
     },
     setPromoDiscount: (state, action: PayloadAction<number>) => {
       state.promoDiscount = action.payload;
+    },
+    setIsPromoCodeValid: (state, action: PayloadAction<PromocodeStatus>) => {
+      state.isPromocodeValid = action.payload;
     }
   },
   extraReducers(builder) {
@@ -157,4 +160,5 @@ export const {
   setDeleteBasketModalActive,
   setProductToDeleteFromBasket,
   setIsOrderModalActive,
-  setPromoDiscount } = dataProcess.actions;
+  setPromoDiscount,
+  setIsPromoCodeValid } = dataProcess.actions;
